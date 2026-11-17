@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="UniAssist: a role-aware multi-agent RAG assistant for university policy questions, with a verifier agent. CSIT305 research project, UOW Dubai, Group 3.">
+<title>UniAssist Project Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one readable column of sections, with tables and diagrams allowed to scroll sideways on phones. */
+:root {
+  --bg: #f6f7f9;
+  --paper: #ffffff;
+  --ink: #17202c;
+  --muted: #5a6575;
+  --line: #d9dee6;
+  --accent: #1f5d8c;
+  --accent-soft: #e4eef6;
+  --good: #1d7a4a;
+  --good-soft: #e3f3ea;
+  --warn: #9a5b00;
+  --warn-soft: #fbf0dc;
+  --bad: #a3262a;
+  --bad-soft: #f9e3e3;
+  --code-bg: #eef1f5;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --paper: #171e27; --ink: #e5e9ef; --muted: #9aa6b5; --line: #2b3542;
+    --accent: #7fb6e2; --accent-soft: #1c2b3a; --good: #6fcf9a; --good-soft: #163024;
+    --warn: #e6b45f; --warn-soft: #33281a; --bad: #f08a8d; --bad-soft: #3a1d1f; --code-bg: #1f2833;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --paper: #171e27; --ink: #e5e9ef; --muted: #9aa6b5; --line: #2b3542;
+  --accent: #7fb6e2; --accent-soft: #1c2b3a; --good: #6fcf9a; --good-soft: #163024;
+  --warn: #e6b45f; --warn-soft: #33281a; --bad: #f08a8d; --bad-soft: #3a1d1f; --code-bg: #1f2833;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+.wrap { max-width: 920px; margin: 0 auto; display: grid; gap: 28px; }
+header.top { display: grid; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 44px); }
+h2 { font-size: 26px; padding-top: 8px; }
+h3 { font-size: 19px; margin-top: 6px; }
+p { margin: 0; max-width: 68ch; }
+.lede { font-size: 18px; color: var(--muted); max-width: 70ch; }
+section { display: grid; gap: 14px; }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--mono); font-size: 0.88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+pre.cmd { font-family: var(--mono); font-size: 13.5px; background: var(--code-bg); padding: 12px 14px; border-radius: 6px; overflow-x: auto; margin: 0; }
+ul, ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 72ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+.meta-row b { color: var(--ink); font-weight: 600; }
+nav.toc { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; }
+nav.toc ol { columns: 2; column-gap: 28px; display: block; }
+nav.toc li { margin-bottom: 4px; break-inside: avoid; }
+@media (max-width: 560px) { nav.toc ol { columns: 1; } }
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.fig { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
+.fig .n { font-family: var(--display); font-size: 28px; font-variant-numeric: tabular-nums; }
+.fig .l { font-size: 13.5px; color: var(--muted); }
+.tbl { overflow-x: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 560px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; font-size: 13px; letter-spacing: 0.02em; color: var(--muted); background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ver { font-family: var(--mono); font-weight: 500; white-space: nowrap; }
+.pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { background: var(--good-soft); color: var(--good); }
+.pill.part { background: var(--warn-soft); color: var(--warn); }
+.pill.no { background: var(--bad-soft); color: var(--bad); }
+.note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 10px 14px; border-radius: 0 6px 6px 0; max-width: 76ch; }
+.note.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.diagram { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; }
+.diagram svg { width: 100%; min-width: 760px; height: auto; display: block; }
+.diagram .bx { fill: var(--paper); stroke: var(--line); stroke-width: 1.5; }
+.diagram .bx.acc { stroke: var(--accent); stroke-width: 2.2; }
+.diagram .t { font: 600 14px var(--body); fill: var(--ink); }
+.diagram .s { font: 12px var(--body); fill: var(--muted); }
+.diagram .lb { font: 11.5px var(--mono); fill: var(--muted); }
+.diagram .lb.accl { fill: var(--accent); }
+.diagram .ln { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+.diagram .ln.dash { stroke-dasharray: 5 4; }
+.diagram .ln.acc { stroke: var(--accent); stroke-dasharray: 2 4; }
+.diagram .arrowhead { fill: var(--muted); }
+.diagram .frame { fill: none; stroke: var(--line); stroke-dasharray: 6 5; }
+.steps { counter-reset: s; list-style: none; padding: 0; display: grid; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; }
+.steps li::before { counter-increment: s; content: counter(s); font-family: var(--mono); font-size: 13px; font-weight: 500;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+.steps li > div { min-width: 0; }
+details { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 8px; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+/* Export / print: always the light palette with dark text. Browsers drop page backgrounds when
+   printing, so the dark theme's light text would otherwise land on white paper. */
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    --bg: #ffffff; --paper: #ffffff; --ink: #111111; --muted: #444b55; --line: #c9cfd8;
+    --accent: #1f5d8c; --accent-soft: #e8f0f7; --good: #1d6b42; --good-soft: #e3f3ea;
+    --warn: #8a5100; --warn-soft: #fbf0dc; --bad: #9a1f23; --bad-soft: #f9e3e3; --code-bg: #f0f2f5;
+    color-scheme: light;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #fff; color: #111; padding-block: 0; font-size: 11pt; }
+  .wrap { max-width: none; }
+  nav.toc { display: none; }
+  section, .tbl, .diagram, .note, .figs { break-inside: avoid-page; }
+  h2 { break-after: avoid-page; }
+  table { min-width: 0; font-size: 9.5pt; }
+  .tbl { overflow: visible; }
+  a { color: #1f5d8c; text-decoration: none; }
+  details { display: none; }
+  .diagram { overflow: visible; }
+  .diagram svg { min-width: 0; width: 100%; }
+}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">CSIT305 · UOW Dubai · Group 3 · Project guide · 17 Nov 2026</div>
+  <h1>UniAssist: architecture and what changed since v0.9</h1>
+  <p class="lede">A guide to the role-aware RAG prototype built by Group 3 (Ahmed Azzam, Abdulrahman Al Khayat, Nikita Dvornitsyn, Hulud Ahmed) for the CSIT305 research project: how it is built, what changed after the first prototype (v0.9), what the experiments show, and what is still open.</p>
+  <div class="meta-row">
+    <span>Repository: <b><a href="https://github.com/ma3str0o0/role-aware-rag-assistant">github.com/ma3str0o0/role-aware-rag-assistant</a></b> (fork of Ahmed's repo)</span>
+    <span>Started from: <b>v0.9</b> <code>4f5e8d2</code></span>
+    <span>Now: <b>v1.6.1</b></span>
+    <span>Tests: <b>55 passing</b>, CI green</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#request">One question, step by step</a></li>
+    <li><a href="#verifier">What the verifier checks</a></li>
+    <li><a href="#data">Documents and question sets</a></li>
+    <li><a href="#changes">What was done after v0.9</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#feedback">Tutor feedback, point by point</a></li>
+    <li><a href="#open">Still open before submission</a></li>
+    <li><a href="#try">Try it yourself</a></li>
+  </ol>
+</nav>
+
+<section id="summary">
+  <h2>Summary</h2>
+  <p>The research question has not changed: <i>to what extent does adding a verifier agent to a role-aware RAG assistant reduce wrong answers and leaks of restricted information, and what does it cost?</i> The prototype runs Version A (role filter only) and Version B (role filter + verifier) on the same questions.</p>
+  <p>Since v0.9 the prototype was tested by hand, a dozen bugs and design gaps were fixed, real university documents replaced the mock-only data, and every change was measured on question sets written <b>before</b> the change. The web page was rebuilt so that people outside the project can understand what happened to each answer.</p>
+  <div class="figs">
+    <div class="fig"><span class="n">31</span><span class="l">real public policy documents from 11 universities, mostly Dubai campuses</span></div>
+    <div class="fig"><span class="n">270</span><span class="l">labelled questions in 6 sets (45 in v0.9)</span></div>
+    <div class="fig"><span class="n">11</span><span class="l">evaluation runs, each with notes on what changed and why</span></div>
+    <div class="fig"><span class="n">14 → 55</span><span class="l">automated tests; CI re-runs the full evaluation on every push</span></div>
+  </div>
+</section>
+
+<section id="architecture">
+  <h2>Architecture</h2>
+  <p>Three agents run in order behind a small API. The key design idea, from the tutor's feedback, is that the verifier never trusts the tags stored in the search index: it checks permissions against its own access register and the original documents.</p>
+  <div class="diagram">
+<svg viewBox="0 0 1100 400" role="img" aria-labelledby="archTitle" xmlns="http://www.w3.org/2000/svg">
+<title id="archTitle">Architecture: the user logs in and asks; the API takes the role from the signed token; the orchestrator runs the retriever, the answerer and, in Version B, the verifier, which checks the draft against the access register and the original documents and then passes, rewrites or blocks it.</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
+<rect class="frame" x="380" y="150" width="500" height="122" rx="10"/>
+<text class="lb" x="390" y="167">orchestrator.py</text>
+<rect class="bx" x="20" y="180" width="130" height="56" rx="8"/><text class="t" x="85.0" y="205.0" text-anchor="middle">User</text><text class="s" x="85.0" y="221.0" text-anchor="middle">web page</text>
+<rect class="bx" x="200" y="60" width="150" height="56" rx="8"/><text class="t" x="275.0" y="85.0" text-anchor="middle">Login · auth.py</text><text class="s" x="275.0" y="101.0" text-anchor="middle">signed token with the role</text>
+<rect class="bx" x="200" y="180" width="150" height="56" rx="8"/><text class="t" x="275.0" y="205.0" text-anchor="middle">API · api.py</text><text class="s" x="275.0" y="221.0" text-anchor="middle">role taken from the token</text>
+<rect class="bx" x="395" y="180" width="140" height="56" rx="8"/><text class="t" x="465.0" y="205.0" text-anchor="middle">Retriever</text><text class="s" x="465.0" y="221.0" text-anchor="middle">role + university filter</text>
+<path class="bx" d="M395,40 a70.0,10 0 0,0 140,0 a70.0,10 0 0,0 -140,0 v46 a70.0,10 0 0,0 140,0 v-46"/><text class="t" x="465.0" y="68" text-anchor="middle">ChromaDB</text><text class="s" x="465.0" y="84" text-anchor="middle">chunks + role tags</text>
+<rect class="bx" x="565" y="180" width="130" height="56" rx="8"/><text class="t" x="630.0" y="205.0" text-anchor="middle">Answerer</text><text class="s" x="630.0" y="221.0" text-anchor="middle">draft + citations</text>
+<rect class="bx acc" x="725" y="170" width="140" height="76" rx="8"/><text class="t" x="795.0" y="197.0" text-anchor="middle">Verifier</text><text class="s" x="795.0" y="213.0" text-anchor="middle">Version B only</text><text class="s" x="795.0" y="229.0" text-anchor="middle">independent checks</text>
+<path class="bx" d="M640,328 a75.0,10 0 0,0 150,0 a75.0,10 0 0,0 -150,0 v46 a75.0,10 0 0,0 150,0 v-46"/><text class="t" x="715.0" y="356" text-anchor="middle">Access register</text><text class="s" x="715.0" y="372" text-anchor="middle">kept outside the index</text>
+<path class="bx" d="M820,328 a75.0,10 0 0,0 150,0 a75.0,10 0 0,0 -150,0 v46 a75.0,10 0 0,0 150,0 v-46"/><text class="t" x="895.0" y="356" text-anchor="middle">Original documents</text><text class="s" x="895.0" y="372" text-anchor="middle">sensitivity labels</text>
+<rect class="bx" x="930" y="96" width="150" height="56" rx="8"/><text class="t" x="1005.0" y="129.0" text-anchor="middle">Answer + sources</text>
+<rect class="bx" x="930" y="250" width="150" height="56" rx="8"/><text class="t" x="1005.0" y="275.0" text-anchor="middle">Safe reply</text><text class="s" x="1005.0" y="291.0" text-anchor="middle">“I can’t help with that”</text>
+<path class="ln" d="M150,196 C176,196 174,88 200,88" marker-end="url(#ah)"/><text class="lb" x="160" y="132" text-anchor="end">log in</text>
+<path class="ln" d="M150,212 L198,212" marker-end="url(#ah)"/><text class="lb" x="152" y="230">ask</text>
+<path class="ln dash" d="M275,116 L275,178" marker-end="url(#ah)"/><text class="lb" x="282" y="152">role</text>
+<path class="ln" d="M350,208 L393,208" marker-end="url(#ah)"/>
+<path class="ln" d="M465,180 L465,114" marker-end="url(#ah)"/><text class="lb" x="472" y="140">search</text>
+<path class="ln" d="M535,208 L563,208" marker-end="url(#ah)"/>
+<path class="ln" d="M695,208 L723,208" marker-end="url(#ah)"/>
+<path class="ln" d="M780,246 C780,266 632,266 630,238" marker-end="url(#ah)"/><text class="lb" x="650" y="286">rewrite once</text>
+<path class="ln dash" d="M715,318 L772,248" marker-end="url(#ah)"/>
+<path class="ln dash" d="M895,318 L832,248" marker-end="url(#ah)"/><text class="lb" x="768" y="300">independent</text>
+<path class="ln" d="M865,196 C900,196 898,124 928,124" marker-end="url(#ah)"/><text class="lb" x="886" y="152">pass</text>
+<path class="ln" d="M865,222 C900,222 898,278 928,278" marker-end="url(#ah)"/><text class="lb" x="882" y="264">block</text>
+<path class="ln acc" d="M630,180 C630,126 870,110 928,112" marker-end="url(#ah)"/><text class="lb accl" x="700" y="106">Version A: no checker</text>
+</svg>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Part</th><th>File</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>Login</td><td><code>src/auth.py</code></td><td>Issues a signed token (HMAC-SHA256, 8 hours) that carries the role. The role is never read from the question or the request body.</td></tr>
+      <tr><td>Ingestion</td><td><code>src/ingest.py</code></td><td>Splits documents into chunks of 2 paragraphs, tags each chunk with its allowed roles and its university, embeds and stores it.</td></tr>
+      <tr><td>Retriever</td><td><code>src/agents/retriever.py</code></td><td>Searches only chunks the role may see (filter inside the vector query), optionally only one university's documents. Top 4, ties broken by chunk id so results repeat exactly.</td></tr>
+      <tr><td>Answerer</td><td><code>src/agents/answerer.py</code></td><td>Offline: copies the best-matching sentences. OpenAI mode: GPT-4o-mini, temperature 0, cites every sentence.</td></tr>
+      <tr><td>Verifier</td><td><code>src/agents/verifier.py</code>, <code>relevance.py</code></td><td>Checks the draft (next section) and passes, rewrites once, or blocks.</td></tr>
+      <tr><td>Orchestrator</td><td><code>src/orchestrator.py</code></td><td>Runs the agents; Version A skips the verifier. Removing a leaked source does not use up the one quality rewrite.</td></tr>
+      <tr><td>API</td><td><code>api.py</code></td><td>FastAPI: login, ask, datasets, document upload/preview, health, demo re-index.</td></tr>
+      <tr><td>Web page</td><td><code>app.py</code></td><td>Streamlit page: choose a university, ask, compare A and B side by side, see why the checker approved or blocked, upload a document and see its chunks and vectors.</td></tr>
+      <tr><td>Real documents</td><td><code>src/fetch_real.py</code></td><td>Downloads the public documents listed in <code>data/real/manifest.csv</code>, extracts the text, checks SHA-256 hashes. Texts are not committed (copyright).</td></tr>
+      <tr><td>Evaluation</td><td><code>eval/run_eval.py</code>, <code>stats.py</code></td><td>Runs every question set through A and B under four tagging conditions; reports 95% Wilson intervals and exact McNemar tests.</td></tr>
+      <tr><td>One-command start</td><td><code>run_demo.py</code></td><td>Downloads, indexes, starts the API and page, opens the browser.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Two modes: <b>offline</b> (default, no API key: hashing embeddings, extractive answerer, rule-based verifier) and <b>openai</b> (<code>text-embedding-3-small</code> and <code>gpt-4o-mini</code>). All results so far are offline.</p>
+</section>
+
+<section id="request">
+  <h2>One question, step by step</h2>
+  <p>A student asks "What is the late penalty per day at the American University in Dubai?" with "All universities" selected.</p>
+  <ol class="steps">
+    <li><div><b>Login.</b> The page holds a token that says <code>student</code>. Saying "I'm a lecturer" in the question changes nothing.</div></li>
+    <li><div><b>Search.</b> The retriever asks ChromaDB only for chunks tagged visible to students. It returns the 4 closest chunks; here they come from the Canadian University Dubai handbook, because AUD's documents do not mention late penalties.</div></li>
+    <li><div><b>Draft.</b> The answerer writes an answer from those chunks and cites them.</div></li>
+    <li><div><b>Version A</b> shows that draft: an answer about another university, presented as if it were AUD's rule.</div></li>
+    <li><div><b>Version B</b> runs the checks. The question names AUD, the source is from Canadian University Dubai, so the source is dropped, the answerer tries again with what is left, nothing relevant remains, and the safe reply is shown. The page explains: "You asked about American University in Dubai, but the draft came from a Canadian University Dubai document."</div></li>
+  </ol>
+</section>
+
+<section id="verifier">
+  <h2>What the verifier checks</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Check</th><th>Looks at</th><th>Catches</th><th>Added</th></tr></thead>
+    <tbody>
+      <tr><td>Access register</td><td>Every chunk the answerer saw, against <code>access_register.csv</code> (not the index tags)</td><td>A document tagged wrongly in the index. Missing from the register = restricted (fail closed).</td><td>v0.2; all chunks, not only cited, since v1.1</td></tr>
+      <tr><td>Sensitivity labels</td><td>Chunk text and the whole original document</td><td>"STAFF ONLY", "CONFIDENTIAL" etc. when the register is also wrong. Labels count only in upper case since v1.2.</td><td>v0.2; whole document v0.11</td></tr>
+      <tr><td>Relevance</td><td>Question vs draft (answer type, word coverage); LLM judge in openai mode</td><td>A copied sentence that does not answer the question.</td><td>v1.1</td></tr>
+      <tr><td>Right university</td><td>University named in the question vs the source's university</td><td>An answer taken from another university's policy.</td><td>v1.5</td></tr>
+      <tr><td>Support</td><td>Each sentence vs its source</td><td>Sentences not backed by the cited source.</td><td>v0.2</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="data">
+  <h2>Documents and question sets</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Corpus</th><th>Documents</th><th>Chunks</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>mock</code></td><td>13 written by the group (6 public, 4 staff, 3 admin)</td><td class="num">29</td><td>Development, runs 1–5</td></tr>
+      <tr><td><code>real</code></td><td>16 public policies: UOW (6), UOW Dubai (2), Heriot-Watt (6), UNSW (2) + 7 mock restricted</td><td class="num">1,223</td><td>Runs 6–9</td></tr>
+      <tr><td><code>dubai</code></td><td>31 public documents from 11 universities: the above + Middlesex, Birmingham, Murdoch, Curtin, Amity, Canadian University and American University in Dubai, plus Heriot-Watt's Dubai handbook. Campuses merged under Dubai; UNSW kept as a general reference. + 7 mock restricted</td><td class="num">4,217</td><td>Run 11 and the web page</td></tr>
+    </tbody>
+  </table></div>
+  <p>Restricted documents (salary bands, marking guide, misconduct register) stay mock: real ones are not public. Every source on the page is labelled <b>real</b> (with a link to the original) or <b>mock</b>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Question set</th><th>Answerable / unanswerable / restricted</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><code>test_set.csv</code> (pilot)</td><td class="num">27 / 9 / 9</td><td>Tuned on in v0.5</td></tr>
+      <tr><td><code>test_set_holdout.csv</code></td><td class="num">25 / 9 / 11</td><td>Fair test in run 4, then used to develop v1.1</td></tr>
+      <tr><td><code>test_set_holdout2.csv</code></td><td class="num">22 / 15 / 8</td><td>Frozen before v1.1, run 5</td></tr>
+      <tr><td><code>test_set_real.csv</code></td><td class="num">28 / 9 / 8</td><td>First real-document set, runs 6–8</td></tr>
+      <tr><td><code>test_set_real2.csv</code></td><td class="num">20 / 20 / 5</td><td>Frozen before the university check, 15 wrong-university traps, run 9</td></tr>
+      <tr><td><code>test_set_dubai.csv</code></td><td class="num">26 / 13 / 6</td><td>Frozen before any dubai run, 8 traps, run 11</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Rule we kept throughout: a question set used to decide a change can no longer be the fair test of that change. Each new set was committed and pushed before the change it tests, so the commit times on GitHub prove the order.</div>
+</section>
+
+<section id="changes">
+  <h2>What was done after v0.9</h2>
+  <p>All dates are 16–17 Nov 2026. Commit IDs and the step-by-step session log are in <code>docs/DEVELOPMENT_LOG.md</code>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Version</th><th>What changed</th><th>Why (evidence)</th></tr></thead>
+    <tbody>
+      <tr><td class="ver">v0.10</td><td>Pinned dependencies; random token signing key; API input checks; clear error for an empty index; web page no longer crashes on API errors</td><td>Manual testing: the signing key was committed to the repo, so anyone could forge an admin token; empty or 100,000-character questions were accepted; bad URL parameters crashed the page</td></tr>
+      <tr><td class="ver">v0.11</td><td>Labels checked in the whole document; answerer stops adding unrelated sentences</td><td>A test with tag and register both wrong leaked 2 of 6 restricted documents in Version B (label only in the first chunk)</td></tr>
+      <tr><td class="ver">v0.12</td><td>45 held-out questions, mis-tag conditions for every document, confidence intervals, McNemar test, GitHub Actions</td><td>The tutor's request for a proper testing section; the pilot set had been used for tuning</td></tr>
+      <tr><td class="ver">v1.0</td><td>Testing report, access control, AI-use declaration, README</td><td>Documentation matching run 4</td></tr>
+      <tr><td class="ver">v1.1</td><td>Verifier checks every chunk the answerer saw; relevance check; new web page with A/B comparison</td><td>Run 4: the verifier passed off-topic answers; with a fake LLM, a restricted fact cited under a public source passed B</td></tr>
+      <tr><td class="ver">v1.2</td><td>Real corpus (16 documents, 4 universities); labels must be upper case; repeatable vector search; document upload tab</td><td>Run 6: "confidential" in 9 public policies made B refuse 17.9% of answerable questions; search results changed between index builds</td></tr>
+      <tr><td class="ver">v1.3</td><td>Plain-language page (verdict per answer, "how this answer was made"); table-of-contents and navigation text removed from documents</td><td>Nikita found the page hard to follow; TOC lines outranked real text so the leak demo failed on real data</td></tr>
+      <tr><td class="ver">v1.4</td><td>Pick a university before asking (pop-up with logos)</td><td>Team request; testing it showed B approving a UOW answer to a Heriot-Watt question</td></tr>
+      <tr><td class="ver">v1.5</td><td>Verifier rejects sources from a university the question does not name; sources labelled real or mock</td><td>Closes the v1.4 gap; Nikita asked whether a salary answer was real (it is mock)</td></tr>
+      <tr><td class="ver">v1.6</td><td>Dubai corpus: 7 more universities, campuses merged under Dubai</td><td>Team request to focus on the Dubai market</td></tr>
+      <tr><td class="ver">v1.6.1</td><td>One-command start, README quick start and test guide; crash after API restart fixed; pop-up layout fixed</td><td>So the team can test it; found by Nikita and by a fresh-clone test</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="results">
+  <h2>Results</h2>
+  <p>Offline mode, normal tagging unless stated. Figures are Version A vs Version B on the set that was the fair test for that version. The 95% intervals are wide because the sets are small; they are listed in each <code>results/runN/NOTES.md</code>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Run</th><th>Corpus / set</th><th>Accuracy A vs B</th><th>Unanswerable refused A vs B</th><th>Leaks, all restricted docs mis-tagged</th></tr></thead>
+    <tbody>
+      <tr><td>4</td><td>mock / held-out 1</td><td class="num">76.0% vs 76.0%</td><td class="num">55.6% vs 55.6%</td><td class="num">11/11 vs 0/11</td></tr>
+      <tr><td>5</td><td>mock / held-out 2</td><td class="num">86.4% vs 86.4%</td><td class="num">13.3% vs 26.7%</td><td class="num">8/8 vs 0/8</td></tr>
+      <tr><td>8</td><td>real / real 1</td><td class="num">78.6% vs 78.6%</td><td class="num">22.2% vs 44.4%</td><td class="num">8/8 vs 0/8 (p = 0.008)</td></tr>
+      <tr><td>9</td><td>real / real 2</td><td class="num">55.0% vs 50.0%</td><td class="num">10% vs 90% (p &lt; 0.001)</td><td class="num">4/5 vs 0/5</td></tr>
+      <tr><td>11</td><td>dubai / dubai</td><td class="num">42.3% vs 46.2%</td><td class="num">7.7% vs 69.2% (p = 0.008)</td><td class="num">5/6 vs 0/6</td></tr>
+    </tbody>
+  </table></div>
+  <h3>What we can say in the paper</h3>
+  <ul>
+    <li><b>Leaks:</b> across every set and condition, Version B never added a leak and stopped every leak it had an independent signal for. The only B leak is an unlabelled document when the register is wrong too, which is the design's stated limit.</li>
+    <li><b>Wrong university:</b> the university check is the most effective rule we tested: 14 of 15 and 7 of 8 traps refused, against 1 for Version A.</li>
+    <li><b>Cost:</b> rules written for our own mock documents gave false alarms on real ones ("confidential", then "marking guide" in Curtin's manual), which is why B's over-refusal reached 23% on the dubai set.</li>
+    <li><b>Accuracy</b> is limited by the offline answerer and by very long handbooks, not by the verifier. Run 10 is kept in the repo but is invalid (the new documents were missing from the register; fixed before run 11).</li>
+  </ul>
+</section>
+
+<section id="feedback">
+  <h2>Tutor feedback, point by point</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Feedback</th><th>Status</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td>Research, not a development project</td><td><span class="pill ok">Done</span></td><td>Every change measured A vs B on frozen sets; 11 runs with notes</td></tr>
+      <tr><td>Verifier must have independent access to permissions</td><td><span class="pill ok">Done, strengthened</span></td><td><code>docs/ACCESS_CONTROL.md</code>; tests for every restricted document with tag and register both wrong</td></tr>
+      <tr><td>Exact models</td><td><span class="pill ok">Done</span></td><td>README: gpt-4o-mini (temperature 0), text-embedding-3-small</td></tr>
+      <tr><td>Human-rating rubric and Cohen's kappa</td><td><span class="pill part">Tools only</span></td><td><code>docs/HUMAN_RATING_RUBRIC.md</code>, <code>eval/kappa.py</code>; the ratings themselves are not done</td></tr>
+      <tr><td>Show real iteration from pilot tests</td><td><span class="pill ok">Done</span></td><td><code>docs/TESTING.md</code> "problems found and what we changed"</td></tr>
+      <tr><td>Links to GitHub</td><td><span class="pill part">Repo yes, document no</span></td><td>Repo and releases exist; the link is not yet in the SharePoint document</td></tr>
+      <tr><td>Development evidence log</td><td><span class="pill ok">Done</span></td><td><code>docs/DEVELOPMENT_LOG.md</code> (versions, commits, 40 logged steps)</td></tr>
+      <tr><td>Detailed testing and validation section</td><td><span class="pill ok">Done in repo</span></td><td><code>docs/TESTING.md</code>: 55 tests, expected vs actual, runs, statistics; still to be summarised into the paper</td></tr>
+      <tr><td>Test data sets, why 30 per role, parameter tuning, user metadata</td><td><span class="pill ok">Done</span></td><td><code>docs/DATASET.md</code>, <code>TESTING.md</code> sections 2–3, <code>ACCESS_CONTROL.md</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="open">
+  <h2>Still open before submission</h2>
+  <ol>
+    <li><b>The 6-page IEEE paper.</b> Not written yet. The group document is 17 pages; each page over 6 costs 10 points. Use the fair-test figures (runs 9 and 11), not the pilot.</li>
+    <li><b>OpenAI-mode run</b> (needs an API key): the main experiment in the methodology, plus RAGAs faithfulness. The LLM relevance judge is implemented but unmeasured.</li>
+    <li><b>Human ratings + Cohen's kappa</b> by two members, using the rubric and <code>eval/kappa.py</code>.</li>
+    <li><b>Group document:</b> add the GitHub link, the new results, and update Figure 1 to show the access register.</li>
+    <li><b>Merge this fork into Ahmed's repository</b> through a pull request, after the team has reviewed it.</li>
+    <li><b>Known weaknesses to fix with a new question set:</b> the "marking guide" false alarm, two missed relevance cases ("periods", coverage 0.24), PDF page headers in the CUD handbook.</li>
+  </ol>
+  <div class="note warn"><b>AI use.</b> The work from v0.10 onwards was done by Nikita with Claude Code (Anthropic) and is open for the group to review; how AI was used and checked is declared in <code>docs/AI_USE_DECLARATION.md</code>. All documents in the restricted part of the corpus are invented; the public documents belong to their universities and are downloaded, not redistributed.</div>
+</section>
+
+<section id="try">
+  <h2>Try it yourself</h2>
+  <p>Python 3.11 or 3.12 and Git; no API key. The full guide, including Windows commands and a 10-minute test list, is at the top of the README.</p>
+<pre class="cmd">git clone https://github.com/ma3str0o0/role-aware-rag-assistant.git
+cd role-aware-rag-assistant
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+python run_demo.py</pre>
+  <p>The first start downloads 31 public documents (about a minute) and opens <code>http://localhost:8501</code>. Please send Nikita anything wrong or confusing, with a screenshot.</p>
+  <details>
+    <summary>Where to read more in the repository</summary>
+    <ul>
+      <li><code>README.md</code>: overview, quick start, headline results</li>
+      <li><code>docs/DEVELOPMENT_LOG.md</code>: every version and step with commit IDs</li>
+      <li><code>docs/TESTING.md</code>: all tests, runs, problems and fixes</li>
+      <li><code>docs/DATASET.md</code>: corpora, sources, question sets</li>
+      <li><code>docs/ACCESS_CONTROL.md</code>: roles, tokens, what the verifier uses</li>
+      <li><code>results/runN/NOTES.md</code>: what each run changed and showed</li>
+    </ul>
+  </details>
+</section>
+
+<footer>Prepared by Nikita Dvornitsyn with Claude Code from the repository state at v1.6.1. All figures are copied from <code>results/</code> in the repository; nothing here is new data. University names and logos belong to their universities.</footer>
+
+</div>
+
+</body>
+</html>
