@@ -88,6 +88,8 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .note.warn { border-left-color: var(--warn); background: var(--warn-soft); }
 .diagram { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; }
 .diagram svg { width: 100%; min-width: 760px; height: auto; display: block; }
+.diagram img { display: block; width: 100%; max-width: 820px; height: auto; margin: 0 auto; background: #fff; border-radius: 6px; }
+.diagram .figcap { font-size: 0.85rem; color: var(--muted); text-align: center; margin: 10px 0 0; }
 .diagram .bx { fill: var(--paper); stroke: var(--line); stroke-width: 1.5; }
 .diagram .bx.acc { stroke: var(--accent); stroke-width: 2.2; }
 .diagram .t { font: 600 14px var(--body); fill: var(--ink); }
@@ -162,6 +164,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <li><a href="#results">Results</a></li>
     <li><a href="#feedback">Tutor feedback, point by point</a></li>
     <li><a href="#open">Still open before submission</a></li>
+    <li><a href="#docs">Project documents</a></li>
     <li><a href="#try">Try it yourself</a></li>
   </ol>
 </nav>
@@ -182,36 +185,8 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   <h2>Architecture</h2>
   <p>Three agents run in order behind a small API. The key design idea, from the tutor's feedback, is that the verifier never trusts the tags stored in the search index: it checks permissions against its own access register and the original documents.</p>
   <div class="diagram">
-<svg viewBox="0 0 1100 400" role="img" aria-labelledby="archTitle" xmlns="http://www.w3.org/2000/svg">
-<title id="archTitle">Architecture: the user logs in and asks; the API takes the role from the signed token; the orchestrator runs the retriever, the answerer and, in Version B, the verifier, which checks the draft against the access register and the original documents and then passes, rewrites or blocks it.</title>
-<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>
-<rect class="frame" x="380" y="150" width="500" height="122" rx="10"/>
-<text class="lb" x="390" y="167">orchestrator.py</text>
-<rect class="bx" x="20" y="180" width="130" height="56" rx="8"/><text class="t" x="85.0" y="205.0" text-anchor="middle">User</text><text class="s" x="85.0" y="221.0" text-anchor="middle">web page</text>
-<rect class="bx" x="200" y="60" width="150" height="56" rx="8"/><text class="t" x="275.0" y="85.0" text-anchor="middle">Login · auth.py</text><text class="s" x="275.0" y="101.0" text-anchor="middle">signed token with the role</text>
-<rect class="bx" x="200" y="180" width="150" height="56" rx="8"/><text class="t" x="275.0" y="205.0" text-anchor="middle">API · api.py</text><text class="s" x="275.0" y="221.0" text-anchor="middle">role taken from the token</text>
-<rect class="bx" x="395" y="180" width="140" height="56" rx="8"/><text class="t" x="465.0" y="205.0" text-anchor="middle">Retriever</text><text class="s" x="465.0" y="221.0" text-anchor="middle">role + university filter</text>
-<path class="bx" d="M395,40 a70.0,10 0 0,0 140,0 a70.0,10 0 0,0 -140,0 v46 a70.0,10 0 0,0 140,0 v-46"/><text class="t" x="465.0" y="68" text-anchor="middle">ChromaDB</text><text class="s" x="465.0" y="84" text-anchor="middle">chunks + role tags</text>
-<rect class="bx" x="565" y="180" width="130" height="56" rx="8"/><text class="t" x="630.0" y="205.0" text-anchor="middle">Answerer</text><text class="s" x="630.0" y="221.0" text-anchor="middle">draft + citations</text>
-<rect class="bx acc" x="725" y="170" width="140" height="76" rx="8"/><text class="t" x="795.0" y="197.0" text-anchor="middle">Verifier</text><text class="s" x="795.0" y="213.0" text-anchor="middle">Version B only</text><text class="s" x="795.0" y="229.0" text-anchor="middle">independent checks</text>
-<path class="bx" d="M640,328 a75.0,10 0 0,0 150,0 a75.0,10 0 0,0 -150,0 v46 a75.0,10 0 0,0 150,0 v-46"/><text class="t" x="715.0" y="356" text-anchor="middle">Access register</text><text class="s" x="715.0" y="372" text-anchor="middle">kept outside the index</text>
-<path class="bx" d="M820,328 a75.0,10 0 0,0 150,0 a75.0,10 0 0,0 -150,0 v46 a75.0,10 0 0,0 150,0 v-46"/><text class="t" x="895.0" y="356" text-anchor="middle">Original documents</text><text class="s" x="895.0" y="372" text-anchor="middle">sensitivity labels</text>
-<rect class="bx" x="930" y="96" width="150" height="56" rx="8"/><text class="t" x="1005.0" y="129.0" text-anchor="middle">Answer + sources</text>
-<rect class="bx" x="930" y="250" width="150" height="56" rx="8"/><text class="t" x="1005.0" y="275.0" text-anchor="middle">Safe reply</text><text class="s" x="1005.0" y="291.0" text-anchor="middle">“I can’t help with that”</text>
-<path class="ln" d="M150,196 C176,196 174,88 200,88" marker-end="url(#ah)"/><text class="lb" x="160" y="132" text-anchor="end">log in</text>
-<path class="ln" d="M150,212 L198,212" marker-end="url(#ah)"/><text class="lb" x="152" y="230">ask</text>
-<path class="ln dash" d="M275,116 L275,178" marker-end="url(#ah)"/><text class="lb" x="282" y="152">role</text>
-<path class="ln" d="M350,208 L393,208" marker-end="url(#ah)"/>
-<path class="ln" d="M465,180 L465,114" marker-end="url(#ah)"/><text class="lb" x="472" y="140">search</text>
-<path class="ln" d="M535,208 L563,208" marker-end="url(#ah)"/>
-<path class="ln" d="M695,208 L723,208" marker-end="url(#ah)"/>
-<path class="ln" d="M780,246 C780,266 632,266 630,238" marker-end="url(#ah)"/><text class="lb" x="650" y="286">rewrite once</text>
-<path class="ln dash" d="M715,318 L772,248" marker-end="url(#ah)"/>
-<path class="ln dash" d="M895,318 L832,248" marker-end="url(#ah)"/><text class="lb" x="768" y="300">independent</text>
-<path class="ln" d="M865,196 C900,196 898,124 928,124" marker-end="url(#ah)"/><text class="lb" x="886" y="152">pass</text>
-<path class="ln" d="M865,222 C900,222 898,278 928,278" marker-end="url(#ah)"/><text class="lb" x="882" y="264">block</text>
-<path class="ln acc" d="M630,180 C630,126 870,110 928,112" marker-end="url(#ah)"/><text class="lb accl" x="700" y="106">Version A: no checker</text>
-</svg>
+<a href="architecture.svg" target="_blank" rel="noopener" title="Open full size"><img src="architecture.svg" width="1700" height="2240" alt="Figure 1. Architecture: the user logs in and asks through the Streamlit page; FastAPI takes the role from the signed token; the orchestrator runs the retriever (role and university filter inside the ChromaDB query), the answerer and, in Version B only, the verifier, which checks the draft against the access register and the original documents kept outside the index, may ask the LLM to judge support and relevance, and then passes, rewrites once or blocks. Version A goes straight to the answer. The logger records live queries; the evaluation harness (6 question sets, 270 questions, A and B under 4 tagging conditions, Wilson intervals, McNemar test, CI) calls the same orchestrator directly with logging off."></a>
+<p class="figcap">Figure 1. Architecture as implemented in v1.6.1. Click to open full size. Source: <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/ui/docs/figures/make_fig1.py">docs/figures/make_fig1.py</a>.</p>
   </div>
   <div class="tbl"><table>
     <thead><tr><th>Part</th><th>File</th><th>What it does</th></tr></thead>
@@ -225,7 +200,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
       <tr><td>API</td><td><code>api.py</code></td><td>FastAPI: login, ask, datasets, document upload/preview, health, demo re-index.</td></tr>
       <tr><td>Web page</td><td><code>app.py</code></td><td>Streamlit page: choose a university, ask, compare A and B side by side, see why the checker approved or blocked, upload a document and see its chunks and vectors.</td></tr>
       <tr><td>Real documents</td><td><code>src/fetch_real.py</code></td><td>Downloads the public documents listed in <code>data/real/manifest.csv</code>, extracts the text, checks SHA-256 hashes. Texts are not committed (copyright).</td></tr>
-      <tr><td>Evaluation</td><td><code>eval/run_eval.py</code>, <code>stats.py</code></td><td>Runs every question set through A and B under four tagging conditions; reports 95% Wilson intervals and exact McNemar tests.</td></tr>
+      <tr><td>Evaluation</td><td><code>eval/run_eval.py</code>, <code>stats.py</code></td><td>Runs every question set through A and B under four tagging conditions; reports 95% Wilson intervals and exact McNemar tests. It calls the orchestrator directly with logging off; the logger (<code>logs/queries.jsonl</code>) records only live queries from the web page.</td></tr>
       <tr><td>One-command start</td><td><code>run_demo.py</code></td><td>Downloads, indexes, starts the API and page, opens the browser.</td></tr>
     </tbody>
   </table></div>
@@ -355,6 +330,22 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <li><b>Known weaknesses to fix with a new question set:</b> the "marking guide" false alarm, two missed relevance cases ("periods", coverage 0.24), PDF page headers in the CUD handbook.</li>
   </ol>
   <div class="note warn"><b>AI use.</b> The work from v0.10 onwards was done by Nikita with Claude Code (Anthropic) and is open for the group to review; how AI was used and checked is declared in <code>docs/AI_USE_DECLARATION.md</code>. All documents in the restricted part of the corpus are invented; the public documents belong to their universities and are downloaded, not redistributed.</div>
+</section>
+
+<section id="docs">
+  <h2>Project documents</h2>
+  <p>The full records live in the repository and open directly on GitHub. Run results (per-question CSVs and summaries) are in <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/tree/main/results"><code>results/</code></a>; the full change history is in the <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/commits/main">commit log</a>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Document</th><th>What it contains</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/DEVELOPMENT_LOG.md">Development log</a></td><td>Every version and every working session, step by step, with commits and results.</td></tr>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/TESTING.md">Testing report</a></td><td>Unit tests, evaluation runs 1–11, what each run changed and why.</td></tr>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/DATASET.md">Datasets</a></td><td>Where every document and question set comes from and how to rebuild them.</td></tr>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/ACCESS_CONTROL.md">Access control</a></td><td>Roles, the access register, sensitivity labels and the threat model.</td></tr>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/AI_USE_DECLARATION.md">AI-use declaration</a></td><td>What AI tools did, and how the group checked their output.</td></tr>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/HUMAN_RATING_RUBRIC.md">Human rating rubric</a></td><td>The rubric for blind human ratings and Cohen's kappa (not yet collected).</td></tr>
+    </tbody>
+  </table></div>
 </section>
 
 <section id="try">
