@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UniAssist Defence Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: study handbook. Sticky contents rail on wide screens, one reading column (~70ch), code and tables in their own scroll boxes. */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --ink:#18202b; --ink-2:#465264; --muted:#6b7686; --line:#dde2ea;
+  --accent:#0f6b6f; --accent-soft:#e2f1f1; --code-bg:#eef1f5;
+  --a:#2a78d6; --b:#eb6834; --bl:#1baf7a; --warn:#9a5b00; --warn-bg:#fff4e0; --ok:#1d7a46; --ok-bg:#e6f5ec; --bad:#b4232c; --bad-bg:#fde9ea;
+  --f-display:"Sora", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161d; --surface:#18202a; --ink:#e6ebf2; --ink-2:#b4bfcd; --muted:#8a96a6; --line:#2b3542;
+  --accent:#5cc2c4; --accent-soft:#16333a; --code-bg:#1f2833;
+  --a:#5598e7; --b:#f08451; --bl:#37c48f; --warn:#f0b35a; --warn-bg:#33270f; --ok:#5fcf8e; --ok-bg:#15301f; --bad:#f2777e; --bad-bg:#3a1b1e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161d; --surface:#18202a; --ink:#e6ebf2; --ink-2:#b4bfcd; --muted:#8a96a6; --line:#2b3542;
+  --accent:#5cc2c4; --accent-soft:#16333a; --code-bg:#1f2833;
+  --a:#5598e7; --b:#f08451; --bl:#37c48f; --warn:#f0b35a; --warn-bg:#33270f; --ok:#5fcf8e; --ok-bg:#15301f; --bad:#f2777e; --bad-bg:#3a1b1e; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);align-self:start;max-height:calc(100vh - 40px);overflow:auto;font-size:14.5px}
+nav.toc p{font-family:var(--f-display);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+nav.toc ol{list-style:none;padding:0;margin:0;display:grid;gap:2px;counter-reset:t}
+nav.toc a{display:block;padding:4px 10px;border-radius:6px;color:var(--ink-2);text-decoration:none}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-soft);color:var(--ink);outline:none}
+main{min-width:0}
+header.hero{padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.eyebrow{font-family:var(--f-display);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 10px}
+h1{font-family:var(--f-display);font-size:clamp(30px,4.4vw,44px);line-height:1.12;margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:var(--f-display);font-size:26px;line-height:1.25;margin:56px 0 14px;text-wrap:balance;scroll-margin-top:20px}
+h3{font-family:var(--f-display);font-size:19px;margin:32px 0 8px;scroll-margin-top:20px}
+h4{font-size:17px;margin:20px 0 6px}
+p,li{max-width:72ch}
+.lede{font-size:19px;color:var(--ink-2);max-width:66ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:14px;color:var(--muted)}
+a{color:var(--accent)}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{font-family:var(--f-mono);font-size:13.5px;line-height:1.55;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:12px 0 18px}
+pre code{background:none;padding:0;font-size:inherit}
+.c{color:var(--muted)}
+.tbl{overflow-x:auto;margin:12px 0 20px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;font-size:13px;color:var(--ink-2);background:var(--code-bg)}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right;white-space:nowrap}
+.say{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0}
+.say b{display:block;font-family:var(--f-display);font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.warn{border-left:3px solid var(--warn);background:var(--warn-bg);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0}
+.pill{display:inline-block;font-size:12.5px;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.ok{background:var(--ok-bg);color:var(--ok)} .part{background:var(--warn-bg);color:var(--warn)} .open{background:var(--bad-bg);color:var(--bad)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0 8px;counter-reset:s}
+.flow div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14.5px;counter-increment:s}
+.flow div::before{content:counter(s);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--surface);font-size:12px;font-weight:700;margin-right:6px}
+.flow b{font-family:var(--f-display);font-size:14px}
+.flow small{display:block;color:var(--muted);margin-top:4px}
+figure{margin:18px 0 24px}
+figure .frame{background:#ffffff;border:1px solid var(--line);border-radius:8px;padding:8px;overflow-x:auto}
+figure img{display:block;width:100%;min-width:560px;height:auto}
+figcaption{font-size:14px;color:var(--muted);margin-top:8px;max-width:72ch}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;position:relative}
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--ink-2);margin:0 0 6px}
+.legend span::before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--sw)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;padding:6px 9px;border-radius:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+details{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin:8px 0;padding:0 14px}
+details[open]{padding-bottom:10px}
+summary{cursor:pointer;padding:11px 0;font-weight:600;list-style:none;display:flex;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--f-mono);color:var(--accent);width:12px;flex:none}
+details[open] summary::before{content:"−"}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.qa-tag{font-size:12px;color:var(--muted);font-weight:400;margin-left:auto;white-space:nowrap}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:14px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.card h4{margin:0 0 6px;font-family:var(--f-display);font-size:15.5px}
+.card p{margin:0;font-size:15.5px}
+.file{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}nav.toc{position:static;max-height:none;margin-bottom:20px;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--surface)}nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <p>Contents</p>
+  <ol>
+    <li><a href="#one-minute">The project in one minute</a></li>
+    <li><a href="#words">Words we use</a></li>
+    <li><a href="#journey">One question, start to finish</a></li>
+    <li><a href="#code">Code tour, file by file</a></li>
+    <li><a href="#verifier">The verifier in detail</a></li>
+    <li><a href="#data">Documents and question sets</a></li>
+    <li><a href="#method">How we evaluate</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#claude">Real LLM run (Claude)</a></li>
+    <li><a href="#stress">Mis-tag stress test</a></li>
+    <li><a href="#history">What broke and how we fixed it</a></li>
+    <li><a href="#limits">Limitations</a></li>
+    <li><a href="#qa">Likely questions</a></li>
+    <li><a href="#dont">What not to claim</a></li>
+    <li><a href="#team">Who did what</a></li>
+    <li><a href="#demo">Running the demo</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="hero">
+  <p style="margin:0 0 12px;font-size:14px"><a href="./">← Project guide</a></p>
+  <p class="eyebrow">CSIT305 · Group 3 · Defence guide</p>
+  <h1>Accurate and role-safe? A verifier agent in a role-aware RAG assistant</h1>
+  <p class="lede">Everything you need to answer questions about our project: what it does, how the code works, what we measured, what went wrong, and what we can and cannot claim. Read sections 1, 3, 5 and 8 first if you only have twenty minutes.</p>
+  <div class="meta"><span>Repository: <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/tree/claude-replication">ma3str0o0/role-aware-rag-assistant</a> (branch <code>claude-replication</code>, v1.8.0)</span><span>Online guide: <a href="https://ma3str0o0.github.io/role-aware-rag-assistant/">ma3str0o0.github.io/role-aware-rag-assistant</a></span><span>Updated 24 Nov 2026</span></div>
+</header>
+
+<h2 id="one-minute">1. The project in one minute</h2>
+<p><b>Research question.</b> To what extent does adding a verifier agent to a role-aware RAG assistant reduce wrong answers and leaks of restricted information, and what does it cost in refused questions, response time and money?</p>
+<p><b>What we built.</b> UniAssist, a university help assistant for three roles: student, lecturer and admin. It answers from university documents. Some documents are public, some are for staff only, some are for admins only. We built two versions that differ in exactly one thing:</p>
+<ul>
+  <li><b>Version A</b>: the search only looks at documents the user's role may see (role filter). Whatever it finds, the answer goes straight to the user.</li>
+  <li><b>Version B</b>: the same, plus a <b>verifier agent</b> that checks every draft answer before the user sees it. It checks access with its own independent list of who may see what, looks for sensitivity labels in the original document, checks the answer is about the right university, and checks that the answer actually answers the question and is supported by the sources.</li>
+</ul>
+<p><b>Why it matters.</b> The role filter is only as good as the tags put on each document when it is uploaded. People make mistakes at upload time. If a staff-only marking guide is tagged as public by mistake, Version A shows it to students. The verifier does not use those tags, so it still catches the mistake.</p>
+<div class="say"><b>The headline result</b>With every restricted document deliberately mis-tagged as public, Version A leaked on 17 of 19 restricted questions and Version B on none (exact McNemar test, p = 0.000015). Accuracy did not change. The price: more refused answerable questions (20–23% on real documents) and more time per answer. A repeat with a real LLM (Claude) gave the same picture for leaks: B 0 of 19, A 6 of 19.</div>
+<p>The project is a <b>research study</b>, not a product. The prototype exists so we can run a controlled A vs B comparison. Our tutor's first feedback was exactly this: "This is not a development project. It is a research paper."</p>
+
+<h2 id="words">2. Words we use</h2>
+<div class="tbl"><table>
+<tr><th>Term</th><th>What it means in our project</th></tr>
+<tr><td>RAG</td><td>Retrieval-augmented generation. Find relevant passages first, then write an answer only from them, with citations like [1].</td></tr>
+<tr><td>Chunk</td><td>A piece of a document, two paragraphs long. Search works on chunks, not whole documents.</td></tr>
+<tr><td>Role tags</td><td>Metadata stored with each chunk in the vector database: <code>role_student=True</code> and so on. The role filter uses them.</td></tr>
+<tr><td>Access register</td><td><code>data/access_register.csv</code>: one row per document with the roles allowed to see it and its owner. Kept separately from the index. Only the verifier reads it.</td></tr>
+<tr><td>Mis-tag</td><td>A document given the wrong role tags in the index (our simulated human error). The register stays correct.</td></tr>
+<tr><td>Leak</td><td>An answer that cites a source the user's role may not see, judged against the correct register.</td></tr>
+<tr><td>Neutral reply</td><td>"I can't help with that. Please contact Student Central for more information." Used both for "restricted" and "not in the documents", so a user cannot tell whether a secret exists.</td></tr>
+<tr><td>Fail closed</td><td>If something is unknown (a document not in the register, judge output that is not valid JSON), treat it as not allowed.</td></tr>
+<tr><td>Over-refusal</td><td>Refusing a question that does have an answer in the allowed documents. The main cost of the verifier.</td></tr>
+<tr><td>Wrong-university trap</td><td>A question naming one university whose answer only exists in another university's documents ("late penalty at UNSW" when only UOW's rule is indexed). The correct behaviour is to refuse.</td></tr>
+<tr><td>Fair test / frozen set</td><td>A question set committed and pushed to GitHub <em>before</em> the change it tests, then run once. We never tune on it.</td></tr>
+<tr><td>Offline mode</td><td>Runs with no API key: hashing embeddings, an extractive answerer that copies the best sentences, and a rule-based verifier. Deterministic, free, reproducible by anyone.</td></tr>
+<tr><td>McNemar test</td><td>A significance test for paired yes/no outcomes on the same questions. It only looks at questions where A and B disagree.</td></tr>
+<tr><td>Wilson interval</td><td>A 95% confidence interval for a percentage that behaves well with small samples and 0% or 100% rates.</td></tr>
+</table></div>
+
+<h2 id="journey">3. One question, start to finish</h2>
+<p>A student types "What marks does the CSIT305 marking guide give for the evidence log?" Here is what happens, and which file does it.</p>
+<div class="flow">
+  <div><b>Login</b><small><span class="file">src/auth.py</span>. Server issues a signed token holding username, role and an 8-hour expiry.</small></div>
+  <div><b>/ask</b><small><span class="file">api.py</span>. Checks the token signature and reads the role from it, never from the request.</small></div>
+  <div><b>Retrieve</b><small><span class="file">retriever.py</span>. Vector search with <code>where role_student=True</code>. Top 4 chunks.</small></div>
+  <div><b>Draft</b><small><span class="file">answerer.py</span>. Writes a cited answer from those chunks only, or the neutral reply.</small></div>
+  <div><b>Verify (B)</b><small><span class="file">verifier.py</span>. Register, labels, university, relevance, support. Pass, revise or block.</small></div>
+  <div><b>Reply</b><small><span class="file">orchestrator.py</span>. Returns the answer, sources, decision, reasons, latency and cost.</small></div>
+</div>
+<p>With correct tags, the marking guide is never retrieved for a student (the filter removes it inside the search), so both versions give the neutral reply. With the marking guide mis-tagged as public, the filter lets it through. Version A cites it: a leak. Version B's verifier looks up <code>staff_csit305_marking_guide</code> in the register, sees student is not allowed, drops that chunk and asks the answerer to try again with what is left. Nothing safe is left, so the student gets the neutral reply.</p>
+<figure>
+  <div class="frame"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzAwIDIyNDAiIHdpZHRoPSIxNzAwIiBoZWlnaHQ9IjIyNDAiPgo8ZGVmcz48bWFya2VyIGlkPSJhaCIgdmlld0JveD0iMCAwIDEyIDEyIiByZWZYPSIxMCIgcmVmWT0iNiIgbWFya2VyV2lkdGg9IjkiIG1hcmtlckhlaWdodD0iOSIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMSwxIEwxMSw2IEwxLDExIiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMiIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImFocyIgdmlld0JveD0iMCAwIDEyIDEyIiByZWZYPSIyIiByZWZZPSI2IiBtYXJrZXJXaWR0aD0iOSIgbWFya2VySGVpZ2h0PSI5IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0xMSwxIEwxLDYgTDExLDExIiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMiIvPjwvbWFya2VyPjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE3MDAiIGhlaWdodD0iMjI0MCIgZmlsbD0iI2ZmZmZmZiIvPgo8cmVjdCB4PSI1MCIgeT0iODAiIHdpZHRoPSIzMzAiIGhlaWdodD0iMTUwIiByeD0iMTgiIGZpbGw9IiNmOGY4ZjciIHN0cm9rZT0iI2M5YzljNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjIxNS4wIiB5PSIxNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFjMWMxYyI+VXNlcjwvdGV4dD4KPHRleHQgeD0iMjE1LjAiIHk9IjE4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjNGE0YTQ4Ij5TdHVkZW50LCBsZWN0dXJlciBvciBhZG1pbjwvdGV4dD4KPHJlY3QgeD0iNTAiIHk9IjMzMCIgd2lkdGg9IjMzMCIgaGVpZ2h0PSIxNzAiIHJ4PSIxOCIgZmlsbD0iI2Y4ZjhmNyIgc3Ryb2tlPSIjYzljOWM2IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjE1LjAiIHk9IjM5NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMWMxYzFjIj5TdHJlYW1saXQgd2ViIGFwcDwvdGV4dD4KPHRleHQgeD0iMjE1LjAiIHk9IjQyOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjNGE0YTQ4Ij5jaG9vc2Ugcm9sZSArIHVuaXZlcnNpdHksPC90ZXh0Pgo8dGV4dCB4PSIyMTUuMCIgeT0iNDU5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiM0YTRhNDgiPmFzaywgY29tcGFyZSBBIGFuZCBCPC90ZXh0Pgo8cGF0aCBkPSJNMjE1LDIzMCBMMjE1LDMyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iMjMyIiB5PSIyODUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5xdWVzdGlvbjwvdGV4dD4KPHJlY3QgeD0iNTAiIHk9IjEyMTAiIHdpZHRoPSIzMzAiIGhlaWdodD0iMTcwIiByeD0iMTgiIGZpbGw9IiNmOGY4ZjciIHN0cm9rZT0iI2M5YzljNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjIxNS4wIiB5PSIxMjc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxYzFjMWMiPkZpbmFsIGFuc3dlcjwvdGV4dD4KPHRleHQgeD0iMjE1LjAiIHk9IjEzMDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzRhNGE0OCI+YW5zd2VyICsgc291cmNlczwvdGV4dD4KPHRleHQgeD0iMjE1LjAiIHk9IjEzMzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzRhNGE0OCI+b3IgJnF1b3Q7SSBjYW4mI3gyNzt0IGhlbHAmcXVvdDs8L3RleHQ+CjxwYXRoIGQ9Ik0yMTUsMTIxMCBMMjE1LDUwNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iMjMyIiB5PSI4NDAiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5yZXNwb25zZTwvdGV4dD4KPHRleHQgeD0iMjMyIiB5PSI4NjciIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5zaG93biB0byB1c2VyPC90ZXh0Pgo8cmVjdCB4PSI0NzAiIHk9IjgwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgcng9IjE4IiBmaWxsPSIjZjhmOGY3IiBzdHJva2U9IiNjOWM5YzYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI2NzAuMCIgeT0iMTM1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxYzFjMWMiPkxvZ2luIMK3IGF1dGgucHk8L3RleHQ+Cjx0ZXh0IHg9IjY3MC4wIiB5PSIxNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzRhNGE0OCI+c2lnbmVkIHRva2VuIChITUFDLCA4IGgpPC90ZXh0Pgo8dGV4dCB4PSI2NzAuMCIgeT0iMTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiM0YTRhNDgiPmNhcnJpZXMgdGhlIHJvbGU8L3RleHQ+CjxwYXRoIGQ9Ik0zODAsMzgwIEM0MjUsMzgwIDQyNSwxNTUgNDY2LDE1NSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iNDM2IiB5PSIyOTIiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5QT1NUIC9sb2dpbjwvdGV4dD4KPHJlY3QgeD0iNDcwIiB5PSIzMzAiIHdpZHRoPSI0MDAiIGhlaWdodD0iMTcwIiByeD0iMTgiIGZpbGw9IiNmOGY4ZjciIHN0cm9rZT0iI2M5YzljNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjY3MC4wIiB5PSIzOTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFjMWMxYyI+RmFzdEFQSSBiYWNrZW5kPC90ZXh0Pgo8dGV4dCB4PSI2NzAuMCIgeT0iNDI5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiM0YTRhNDgiPnJvbGUgcmVhZCBmcm9tIHRoZSB0b2tlbiw8L3RleHQ+Cjx0ZXh0IHg9IjY3MC4wIiB5PSI0NTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzRhNGE0OCI+bmV2ZXIgZnJvbSB0aGUgcmVxdWVzdDwvdGV4dD4KPHBhdGggZD0iTTM4MCw0NTAgTDQ2Niw0NTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdjN2M3YSIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYWgpIi8+Cjx0ZXh0IHg9IjM5MiIgeT0iNTQ4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkM2QzYiI+UE9TVCAvYXNrIHtxdWVzdGlvbiwgdmVyc2lvbiw8L3RleHQ+Cjx0ZXh0IHg9IjM5MiIgeT0iNTcyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkM2QzYiI+ZGF0YXNldH0gKyB0b2tlbjwvdGV4dD4KPHBhdGggZD0iTTY3MCwyMzAgTDY3MCwzMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdjN2M3YSIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1kYXNoYXJyYXk9IjkgNyIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iNjg2IiB5PSIyODUiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5yb2xlPC90ZXh0Pgo8cGF0aCBkPSJNNjcwLDUwMCBMNjcwLDU5NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iNjg2IiB5PSI1NTYiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5xdWVzdGlvbiArIHJvbGUgKyB1bml2ZXJzaXR5PC90ZXh0Pgo8cmVjdCB4PSI0NDAiIHk9IjYwMCIgd2lkdGg9IjQ2MCIgaGVpZ2h0PSI5ODAiIHJ4PSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNWI1MmM3IiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWRhc2hhcnJheT0iMTIgOSIvPgo8dGV4dCB4PSI0ODAiIHk9IjY2MCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxYzFjMWMiPk9yY2hlc3RyYXRvcjwvdGV4dD4KPHRleHQgeD0iNDgwIiB5PSI2OTYiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNGE0YTQ4Ij5ydW5zIHRoZSBhZ2VudHMgaW4gb3JkZXI8L3RleHQ+CjxyZWN0IHg9IjQ4MCIgeT0iNzYwIiB3aWR0aD0iMzgwIiBoZWlnaHQ9IjE1MCIgcng9IjE4IiBmaWxsPSIjZWVlZGZjIiBzdHJva2U9IiM1YjUyYzciIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI2NzAuMCIgeT0iODE1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMyZjI4OTYiPlJldHJpZXZlcjwvdGV4dD4KPHRleHQgeD0iNjcwLjAiIHk9Ijg0OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjNGE0MmI4Ij5hbGxvd2VkIGNodW5rcyBvbmx5OjwvdGV4dD4KPHRleHQgeD0iNjcwLjAiIHk9Ijg3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjNGE0MmI4Ij5yb2xlICsgdW5pdmVyc2l0eSBmaWx0ZXIsIHRvcCA0PC90ZXh0Pgo8cGF0aCBkPSJNNjcwLDkxMCBMNjcwLDk5NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iNjg2IiB5PSI5NjAiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj50b3AtayBjaHVua3M8L3RleHQ+CjxyZWN0IHg9IjQ4MCIgeT0iMTAwMCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIxNTAiIHJ4PSIxOCIgZmlsbD0iI2VlZWRmYyIgc3Ryb2tlPSIjNWI1MmM3IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjcwLjAiIHk9IjEwNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzJmMjg5NiI+QW5zd2VyZXI8L3RleHQ+Cjx0ZXh0IHg9IjY3MC4wIiB5PSIxMDg5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiM0YTQyYjgiPndyaXRlcyB3aXRoIGNpdGF0aW9uczwvdGV4dD4KPHRleHQgeD0iNjcwLjAiIHk9IjExMTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzRhNDJiOCI+KHNlZXMgb25seSByZXRyaWV2ZWQgY2h1bmtzKTwvdGV4dD4KPHBhdGggZD0iTTYxMCwxMTUwIEw2MTAsMTIyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iNTk2IiB5PSIxMTk2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzZDNkM2IiPmRyYWZ0ICsgY2h1bmtzPC90ZXh0Pgo8cmVjdCB4PSI0ODAiIHk9IjEyMzAiIHdpZHRoPSIzODAiIGhlaWdodD0iMjUwIiByeD0iMTgiIGZpbGw9IiNlZWVkZmMiIHN0cm9rZT0iIzViNTJjNyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjY3MC4wIiB5PSIxMzA3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMyZjI4OTYiPlZlcmlmaWVyIMK3IFZlcnNpb24gQiBvbmx5PC90ZXh0Pgo8dGV4dCB4PSI2NzAuMCIgeT0iMTM0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjNGE0MmI4Ij5hY2Nlc3MgcmVnaXN0ZXIgwrcgbGFiZWxzPC90ZXh0Pgo8dGV4dCB4PSI2NzAuMCIgeT0iMTM2OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjNGE0MmI4Ij5yaWdodCB1bml2ZXJzaXR5IMK3IHJlbGV2YW5jZTwvdGV4dD4KPHRleHQgeD0iNjcwLjAiIHk9IjEzOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzRhNDJiOCI+c3VwcG9ydDwvdGV4dD4KPHRleHQgeD0iNjcwLjAiIHk9IjE0MjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzRhNDJiOCI+4oaSIHBhc3MgLyByZXdyaXRlIG9uY2UgLyBibG9jazwvdGV4dD4KPHBhdGggZD0iTTczMCwxMjMwIEw3MzAsMTE1NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iNzQ0IiB5PSIxMTk2IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkM2QzYiI+cmV3cml0ZSBvbmNlPC90ZXh0Pgo8cGF0aCBkPSJNNDgwLDE0MDAgTDM4NiwxMzQwIiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8dGV4dCB4PSIyMTUiIHk9IjE0MjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkM2QzYiI+QjogcGFzc2VkLCByZXdyaXR0ZW4gb3IgYmxvY2tlZDwvdGV4dD4KPHBhdGggZD0iTTQ4MCwxMDYwIEwzMDAsMTA2MCBMMzAwLDEyMDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzViNTJjNyIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1kYXNoYXJyYXk9IjkgNyIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHRleHQgeD0iMzEyIiB5PSIxMTEwIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzRhNDJiOCI+VmVyc2lvbiBBOjwvdGV4dD4KPHRleHQgeD0iMzEyIiB5PSIxMTM0IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzRhNDJiOCI+bm8gY2hlY2tlcjwvdGV4dD4KPHRleHQgeD0iMTM1NSIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkM2QzYiI+T2ZmbGluZSBpbmdlc3Rpb248L3RleHQ+CjxyZWN0IHg9IjExNzAiIHk9IjkwIiB3aWR0aD0iMzcwIiBoZWlnaHQ9IjE2MCIgcng9IjE4IiBmaWxsPSIjZTNmNGVjIiBzdHJva2U9IiMyZjdkNWIiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxMzU1LjAiIHk9IjE1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTY1MDNhIj5Eb2N1bWVudHM8L3RleHQ+Cjx0ZXh0IHg9IjEzNTUuMCIgeT0iMTg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMyMjcwNGYiPjMxIHB1YmxpYyB1bml2ZXJzaXR5IHBvbGljaWVzPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjI3MDRmIj4rIDcgbW9jayBzdGFmZi9hZG1pbiBkb2NzPC90ZXh0Pgo8cGF0aCBkPSJNMTM1NSwyNTAgTDEzNTUsMzI2IiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8cmVjdCB4PSIxMTcwIiB5PSIzMzAiIHdpZHRoPSIzNzAiIGhlaWdodD0iMTYwIiByeD0iMTgiIGZpbGw9IiNlM2Y0ZWMiIHN0cm9rZT0iIzJmN2Q1YiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEzNTUuMCIgeT0iMzkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNjUwM2EiPkNodW5rICsgdGFnPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjQyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjI3MDRmIj4yIHBhcmFncmFwaHMgcGVyIGNodW5rOzwvdGV4dD4KPHRleHQgeD0iMTM1NS4wIiB5PSI0NTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzIyNzA0ZiI+cm9sZSArIHVuaXZlcnNpdHkgdGFnczwvdGV4dD4KPHBhdGggZD0iTTEzNTUsNDkwIEwxMzU1LDU2NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHJlY3QgeD0iMTE3MCIgeT0iNTcwIiB3aWR0aD0iMzcwIiBoZWlnaHQ9IjE2MCIgcng9IjE4IiBmaWxsPSIjZTNmNGVjIiBzdHJva2U9IiMyZjdkNWIiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxMzU1LjAiIHk9IjYzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTY1MDNhIj5FbWJlZGRpbmdzPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjY2NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjI3MDRmIj50ZXh0LWVtYmVkZGluZy0zLXNtYWxsPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjY5NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjI3MDRmIj4ob2ZmbGluZTogaGFzaGluZywgMSwwMjQtZCk8L3RleHQ+CjxwYXRoIGQ9Ik0xMzU1LDczMCBMMTM1NSw3NjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdjN2M3YSIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYWgpIi8+CjxyZWN0IHg9IjExNzAiIHk9Ijc3MCIgd2lkdGg9IjM3MCIgaGVpZ2h0PSIxNjAiIHJ4PSIxOCIgZmlsbD0iI2UzZjRlYyIgc3Ryb2tlPSIjMmY3ZDViIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMTM1NS4wIiB5PSI4MzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE2NTAzYSI+Q2hyb21hREI8L3RleHQ+Cjx0ZXh0IHg9IjEzNTUuMCIgeT0iODY0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMyMjcwNGYiPnJvbGUgKyB1bml2ZXJzaXR5IGZpbHRlcjwvdGV4dD4KPHRleHQgeD0iMTM1NS4wIiB5PSI4OTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzIyNzA0ZiI+aW5zaWRlIHRoZSBxdWVyeSDihpIgcmFuazwvdGV4dD4KPHBhdGggZD0iTTg2Niw4MzUgTDExNjQsODM1IiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIgbWFya2VyLXN0YXJ0PSJ1cmwoI2FocykiLz4KPHRleHQgeD0iMTAxNSIgeT0iODE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzZDNkM2IiPmZpbHRlcmVkIHNlYXJjaDwvdGV4dD4KPHJlY3QgeD0iMTE3MCIgeT0iOTkwIiB3aWR0aD0iMzcwIiBoZWlnaHQ9IjM0MCIgcng9IjE4IiBmaWxsPSIjZTNmNGVjIiBzdHJva2U9IiMyZjdkNWIiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxMzU1LjAiIHk9IjExMjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE2NTAzYSI+TExNIEFQSTwvdGV4dD4KPHRleHQgeD0iMTM1NS4wIiB5PSIxMTU5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMyMjcwNGYiPmdwdC00by1taW5pLCB0ZW1wZXJhdHVyZSAwPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjExODkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzIyNzA0ZiI+KG9mZmxpbmU6IGV4dHJhY3RpdmUgYW5zd2VyZXIsPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjEyMTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzIyNzA0ZiI+cnVsZS1iYXNlZCBjaGVja3MpPC90ZXh0Pgo8cGF0aCBkPSJNODY2LDEwNjAgTDExNjQsMTA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiIG1hcmtlci1zdGFydD0idXJsKCNhaHMpIi8+Cjx0ZXh0IHg9IjEwMTUiIHk9IjEwNDMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkM2QzYiI+cHJvbXB0IC8gY29tcGxldGlvbjwvdGV4dD4KPHBhdGggZD0iTTg2NiwxMzEwIEwxMTY0LDEzMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdjN2M3YSIgc3Ryb2tlLXdpZHRoPSIyLjQiIG1hcmtlci1lbmQ9InVybCgjYWgpIiBtYXJrZXItc3RhcnQ9InVybCgjYWhzKSIvPgo8dGV4dCB4PSIxMDE1IiB5PSIxMjkzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzZDNkM2IiPmp1ZGdlOiBzdXBwb3J0ZWQ/PC90ZXh0Pgo8dGV4dCB4PSIxMDE1IiB5PSIxMzM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzZDNkM2IiPmFuc3dlcnMgdGhlIHF1ZXN0aW9uPzwvdGV4dD4KPHJlY3QgeD0iMTE3MCIgeT0iMTM4MCIgd2lkdGg9IjM3MCIgaGVpZ2h0PSIxMzAiIHJ4PSIxOCIgZmlsbD0iI2ZkZjFkYyIgc3Ryb2tlPSIjYjc3OTFmIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMTM1NS4wIiB5PSIxNDI2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM2ZTQ1MGIiPkFjY2VzcyByZWdpc3RlcjwvdGV4dD4KPHRleHQgeD0iMTM1NS4wIiB5PSIxNDU5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM4YTVhMTIiPnJvbGVzIHBlciBkb2N1bWVudCwga2VwdDwvdGV4dD4KPHRleHQgeD0iMTM1NS4wIiB5PSIxNDg4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM4YTVhMTIiPm91dHNpZGUgdGhlIGluZGV4PC90ZXh0Pgo8cmVjdCB4PSIxMTcwIiB5PSIxNTQwIiB3aWR0aD0iMzcwIiBoZWlnaHQ9IjEzMCIgcng9IjE4IiBmaWxsPSIjZmRmMWRjIiBzdHJva2U9IiNiNzc5MWYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxMzU1LjAiIHk9IjE1ODYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzZlNDUwYiI+T3JpZ2luYWwgZG9jdW1lbnRzPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjE2MTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzhhNWExMiI+c2Vuc2l0aXZpdHkgbGFiZWxzPC90ZXh0Pgo8dGV4dCB4PSIxMzU1LjAiIHk9IjE2NDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzhhNWExMiI+KGUuZy4gU1RBRkYgT05MWSk8L3RleHQ+CjxwYXRoIGQ9Ik0xMTY0LDE0NDAgTDg2NiwxNDQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNzc5MWYiIHN0cm9rZS13aWR0aD0iMi40IiBzdHJva2UtZGFzaGFycmF5PSI5IDciIG1hcmtlci1lbmQ9InVybCgjYWgpIi8+CjxwYXRoIGQ9Ik0xMTY0LDE2MDAgQzEwMDAsMTYwMCA5NTAsMTQ2OCA4NjYsMTQ2NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjc3OTFmIiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWRhc2hhcnJheT0iOSA3IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8dGV4dCB4PSIxMDM1IiB5PSIxNDI0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM4YTVhMTIiPmluZGVwZW5kZW50IG9mIENocm9tYURCIHRhZ3M8L3RleHQ+CjxyZWN0IHg9IjQ4MCIgeT0iMTY2MCIgd2lkdGg9IjM4MCIgaGVpZ2h0PSIxNTAiIHJ4PSIxOCIgZmlsbD0iI2Y4ZjhmNyIgc3Ryb2tlPSIjYzljOWM2IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjcwLjAiIHk9IjE3MTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFjMWMxYyI+TG9nZ2VyPC90ZXh0Pgo8dGV4dCB4PSI2NzAuMCIgeT0iMTc0OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjNGE0YTQ4Ij5ldmVyeSBsaXZlIHF1ZXJ5IOKGkiBxdWVyaWVzLmpzb25sOjwvdGV4dD4KPHRleHQgeD0iNjcwLjAiIHk9IjE3NzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzRhNGE0OCI+bGF0ZW5jeSwgdG9rZW5zLCBjb3N0LCBkZWNpc2lvbjwvdGV4dD4KPHBhdGggZD0iTTY3MCwxNTgwIEw2NzAsMTY1NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWRhc2hhcnJheT0iOSA3IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8dGV4dCB4PSI2ODYiIHk9IjE2MjgiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjM2QzZDNiIj5ldmVyeSBsaXZlIHF1ZXJ5PC90ZXh0Pgo8cmVjdCB4PSIzMCIgeT0iMTg2MCIgd2lkdGg9IjE2NDAiIGhlaWdodD0iMjUwIiByeD0iMjQiIGZpbGw9IiNmNGY3ZmMiIHN0cm9rZT0iIzJmNWY5ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSIxMCA4Ii8+Cjx0ZXh0IHg9IjQ0MCIgeT0iMTkwMiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxODNhNjYiPkV2YWx1YXRpb24gaGFybmVzcyAob2ZmbGluZSBiYXRjaCBydW5zOyBsb2dnaW5nIG9mZik8L3RleHQ+CjxyZWN0IHg9IjYwIiB5PSIxOTMwIiB3aWR0aD0iMjkwIiBoZWlnaHQ9IjE1MCIgcng9IjE4IiBmaWxsPSIjZTdlZWY5IiBzdHJva2U9IiMyZjVmOWUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIyMDUuMCIgeT0iMTk4NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTgzYTY2Ij5RdWVzdGlvbiBzZXRzPC90ZXh0Pgo8dGV4dCB4PSIyMDUuMCIgeT0iMjAxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMjc1MjkwIj42IHNldHMsIDI3MCBsYWJlbGxlZDwvdGV4dD4KPHRleHQgeD0iMjA1LjAiIHk9IjIwNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzI3NTI5MCI+cXVlc3Rpb25zPC90ZXh0Pgo8cmVjdCB4PSIzODAiIHk9IjE5MzAiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTUwIiByeD0iMTgiIGZpbGw9IiNlN2VlZjkiIHN0cm9rZT0iIzJmNWY5ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjUyNS4wIiB5PSIxOTg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxODNhNjYiPnJ1bl9ldmFsLnB5PC90ZXh0Pgo8dGV4dCB4PSI1MjUuMCIgeT0iMjAxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMjc1MjkwIj5BIGFuZCBCIMOXIDQgdGFnZ2luZzwvdGV4dD4KPHRleHQgeD0iNTI1LjAiIHk9IjIwNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzI3NTI5MCI+Y29uZGl0aW9uczwvdGV4dD4KPHJlY3QgeD0iNzAwIiB5PSIxOTMwIiB3aWR0aD0iMjkwIiBoZWlnaHQ9IjE1MCIgcng9IjE4IiBmaWxsPSIjZTdlZWY5IiBzdHJva2U9IiMyZjVmOWUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI4NDUuMCIgeT0iMTk4NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTgzYTY2Ij5TY29yaW5nPC90ZXh0Pgo8dGV4dCB4PSI4NDUuMCIgeT0iMjAxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMjc1MjkwIj5hY2N1cmFjeSwgbGVha3MsPC90ZXh0Pgo8dGV4dCB4PSI4NDUuMCIgeT0iMjA0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMjc1MjkwIj5yZWZ1c2Fscywgc3VwcG9ydDwvdGV4dD4KPHJlY3QgeD0iMTAyMCIgeT0iMTkzMCIgd2lkdGg9IjI5MCIgaGVpZ2h0PSIxNTAiIHJ4PSIxOCIgZmlsbD0iI2U3ZWVmOSIgc3Ryb2tlPSIjMmY1ZjllIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMTE2NS4wIiB5PSIxOTg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxODNhNjYiPnN0YXRzLnB5PC90ZXh0Pgo8dGV4dCB4PSIxMTY1LjAiIHk9IjIwMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzI3NTI5MCI+V2lsc29uIDk1JSBDSSw8L3RleHQ+Cjx0ZXh0IHg9IjExNjUuMCIgeT0iMjA0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMjc1MjkwIj5leGFjdCBNY05lbWFyPC90ZXh0Pgo8cmVjdCB4PSIxMzQwIiB5PSIxOTMwIiB3aWR0aD0iMjkwIiBoZWlnaHQ9IjE1MCIgcng9IjE4IiBmaWxsPSIjZTdlZWY5IiBzdHJva2U9IiMyZjVmOWUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxNDg1LjAiIHk9IjE5ODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE4M2E2NiI+cmVzdWx0cy8gKyBDSTwvdGV4dD4KPHRleHQgeD0iMTQ4NS4wIiB5PSIyMDE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiMyNzUyOTAiPnJlcHJvZHVjZWQgb248L3RleHQ+Cjx0ZXh0IHg9IjE0ODUuMCIgeT0iMjA0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmaWxsPSIjMjc1MjkwIj5ldmVyeSBwdXNoPC90ZXh0Pgo8cGF0aCBkPSJNMzUwLDIwMDUgTDM3NiwyMDA1IiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8cGF0aCBkPSJNNjcwLDIwMDUgTDY5NiwyMDA1IiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8cGF0aCBkPSJNOTkwLDIwMDUgTDEwMTYsMjAwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2M3YzdhIiBzdHJva2Utd2lkdGg9IjIuNCIgbWFya2VyLWVuZD0idXJsKCNhaCkiLz4KPHBhdGggZD0iTTEzMTAsMjAwNSBMMTMzNiwyMDA1IiBmaWxsPSJub25lIiBzdHJva2U9IiM3YzdjN2EiIHN0cm9rZS13aWR0aD0iMi40IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8cGF0aCBkPSJNNDEwLDE5MzAgTDQxMCwxNTMwIEw0MzYsMTUzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmY1ZjllIiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWRhc2hhcnJheT0iOSA3IiBtYXJrZXItZW5kPSJ1cmwoI2FoKSIvPgo8dGV4dCB4PSIzOTYiIHk9IjE3MDAiIHRleHQtYW5jaG9yPSJlbmQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EgTmV1ZSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzI3NTI5MCI+c2FtZSBwaXBlbGluZSw8L3RleHQ+Cjx0ZXh0IHg9IjM5NiIgeT0iMTcyNiIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMjc1MjkwIj5jYWxsZWQgZGlyZWN0bHk8L3RleHQ+CjxyZWN0IHg9IjYwIiB5PSIyMTYwIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHJ4PSI3IiBmaWxsPSIjZWVlZGZjIiBzdHJva2U9IiM1YjUyYzciIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxMDQiIHk9IjIxODQiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMmIyYjJhIj5BZ2VudHMgKG1ham9yIHRlY2hub2xvZ3kpPC90ZXh0Pgo8cmVjdCB4PSI0MzQuMCIgeT0iMjE2MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiByeD0iNyIgZmlsbD0iI2UzZjRlYyIgc3Ryb2tlPSIjMmY3ZDViIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNDc4LjAiIHk9IjIxODQiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMmIyYjJhIj5SQUcgKHN1cHBvcnRpbmcgdGVjaG5vbG9neSk8L3RleHQ+CjxyZWN0IHg9IjgzMC40IiB5PSIyMTYwIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHJ4PSI3IiBmaWxsPSIjZmRmMWRjIiBzdHJva2U9IiNiNzc5MWYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI4NzQuNCIgeT0iMjE4NCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMyYjJiMmEiPkluZGVwZW5kZW50IGNoZWNrczwvdGV4dD4KPHJlY3QgeD0iMTEyNi4wIiB5PSIyMTYwIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHJ4PSI3IiBmaWxsPSIjZTdlZWY5IiBzdHJva2U9IiMyZjVmOWUiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIxMTcwLjAiIHk9IjIxODQiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMmIyYjJhIj5FdmFsdWF0aW9uPC90ZXh0Pgo8cmVjdCB4PSIxMzMyLjAiIHk9IjIxNjAiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjciIGZpbGw9IiNmOGY4ZjciIHN0cm9rZT0iI2M5YzljNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEzNzYuMCIgeT0iMjE4NCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iSGVsdmV0aWNhIE5ldWUsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMyYjJiMmEiPkludGVyZmFjZSBhbmQgbG9nZ2luZzwvdGV4dD4KPC9zdmc+" alt="Figure 1: architecture. Login gives a signed role token; the orchestrator calls the retriever (role and university filter inside ChromaDB), the answerer and, in Version B, the verifier, which reads the access register and the original documents independently of the index; the evaluation harness calls the same orchestrator."></div>
+  <figcaption>Figure 1. Architecture (same figure as the README and paper). The verifier's inputs, the access register and the original documents, are separate from the ChromaDB tags the retriever uses. That separation is the whole point.</figcaption>
+</figure>
+
+<h2 id="code">4. Code tour, file by file</h2>
+<p>About 2,700 lines of Python. You do not need to know every line. You need to know what each file is for and be able to point at the few lines that matter.</p>
+<div class="cols">
+  <div class="card"><h4><span class="file">src/config.py</span></h4><p>All settings in one place: roles, corpus choice, <code>TOP_K = 4</code>, <code>MIN_SCORE = 0.12</code>, <code>REL_MIN_COVERAGE = 0.25</code>, the neutral reply, university names. Mode is <code>openai</code> if an API key is set, else <code>offline</code>.</p></div>
+  <div class="card"><h4><span class="file">src/ingest.py</span></h4><p>Reads documents (front matter has title, sensitivity, allowed roles), splits into 2-paragraph chunks, tags each chunk with <code>role_student / role_lecturer / role_admin</code> and university, stores them in ChromaDB. <code>--mistag</code> simulates the upload error.</p></div>
+  <div class="card"><h4><span class="file">src/embeddings.py</span></h4><p>Two embedding options. Offline: a hashing embedding (stemmed words and word pairs hashed into 1,024 numbers). Online: <code>text-embedding-3-small</code>.</p></div>
+  <div class="card"><h4><span class="file">src/store.py</span></h4><p>Opens the ChromaDB collection with cosine distance and a deep HNSW search (<code>ef_search = 2000</code>) so results are repeatable.</p></div>
+  <div class="card"><h4><span class="file">src/agents/retriever.py</span></h4><p>The role filter. 26 lines. The filter is inside the query, so restricted chunks are removed before ranking and never reach the model.</p></div>
+  <div class="card"><h4><span class="file">src/agents/answerer.py</span></h4><p>Writes the draft. With an LLM: "answer only from the numbered sources, cite each sentence, else reply exactly with the neutral reply". Offline: copies the best-matching sentence.</p></div>
+  <div class="card"><h4><span class="file">src/agents/verifier.py</span></h4><p>The thing we study. Five checks, fail closed. Section 5 explains it line by line.</p></div>
+  <div class="card"><h4><span class="file">src/agents/relevance.py</span></h4><p>Offline relevance rules: answer type ("how many" needs a number) and IDF-weighted coverage of the question's words.</p></div>
+  <div class="card"><h4><span class="file">src/orchestrator.py</span></h4><p>Runs retriever → answerer → verifier, handles rewrites, and returns one result record. <code>use_verifier=False</code> is Version A.</p></div>
+  <div class="card"><h4><span class="file">src/auth.py</span></h4><p>Login and HMAC-SHA256 signed tokens with an 8-hour expiry. Three demo users. The signing key comes from an environment variable, never the repo.</p></div>
+  <div class="card"><h4><span class="file">api.py</span>, <span class="file">app.py</span></h4><p>FastAPI backend (<code>/login</code>, <code>/ask</code>, <code>/documents</code>, <code>/datasets</code>) and the Streamlit web page, with side-by-side A vs B and an agent trace.</p></div>
+  <div class="card"><h4><span class="file">eval/</span></h4><p><code>run_eval.py</code> runs every question set through A and B under four conditions and scores them; <code>stats.py</code> has Wilson and McNemar; <code>run_claude.py</code> is the Claude replication.</p></div>
+</div>
+
+<h3>The role filter (retriever.py)</h3>
+<pre><code>where = {f"role_{role}": True}
+if dataset:
+    where = {"$and": [where, {"university": {"$in": [dataset, "upload"]}}]}
+<span class="c"># Ask for more than k and break ties by chunk id, so equal scores always give the same top k.</span>
+res = self.col.query(query_texts=[question], n_results=k * 3, where=where)
+...
+chunks.sort(key=lambda c: (-c["score"], c["id"]))
+return chunks[:k]</code></pre>
+<p>Point to make: the filter is applied <em>inside</em> the vector search, not after it. Filtering after retrieval is weaker because restricted chunks would already be ranked and could be passed on by mistake. The tie-break by chunk id was added in run 6, when we found search results were not repeatable.</p>
+
+<h3>The orchestrator loop (orchestrator.py)</h3>
+<pre><code>chunks = self.retriever.run(question, role, dataset=dataset)
+draft = self.answerer.run(question, chunks)
+if self.verifier:
+    v = self.verifier.run(question, role, draft)
+    while (decision == "revise" and revisions &lt; MAX_TOTAL_REVISIONS          <span class="c"># at most 2 rewrites</span>
+           and (v.get("issues") == ["leak"] or quality_revisions &lt; MAX_REVISIONS)):  <span class="c"># 1 for quality</span>
+        chunks = [c for c in chunks if c["id"] not in v["bad_chunks"]]   <span class="c"># drop bad sources</span>
+        draft = self.answerer.run(question, chunks, feedback="; ".join(v["reasons"]))
+        v = self.verifier.run(question, role, draft)
+    if decision in ("revise", "block"):
+        draft = {"answer": config.NEUTRAL_REPLY, "citations": []}         <span class="c"># fail closed</span></code></pre>
+<p>Point to make: the verifier first tries to <b>fix</b> an answer (remove the bad source, rewrite) and only blocks if that fails. Removing a leaked source does not use up the one "quality" rewrite, because it is a filter, not a writing problem. Before v1.1 it did, and fixable answers were blocked.</p>
+
+<h3>Tagging at upload (ingest.py)</h3>
+<pre><code>roles = list(meta["allowed_roles"])
+if mistag and meta["doc_id"] in mistag_docs:
+    roles = list(config.ROLES)          <span class="c"># simulated human error when uploading</span>
+for i, text in enumerate(chunk(body)):
+    md = {"doc_id": ..., "allowed_roles": ",".join(roles), "university": ...}
+    for r in config.ROLES:
+        md[f"role_{r}"] = r in roles</code></pre>
+<p>The mis-tag only changes the index. The register file and the document text stay correct, exactly like a real upload error.</p>
+
+<h3>Where the role comes from (auth.py and api.py)</h3>
+<pre><code>payload = f"{username}|{role}|{int(time.time()) + TTL_SECONDS}".encode()
+token = base64.urlsafe_b64encode(payload).decode() + "." + hmac_sha256(SECRET, payload)
+...
+res = _orch[req.version].ask(req.question, session["role"], dataset=req.dataset)  <span class="c"># role from the token</span></code></pre>
+<p>A student cannot write "I am an admin" in the question or add <code>role: admin</code> to the request: the API ignores both. Editing the token breaks the signature. Four API tests check these cases. In a real deployment the role would come from university single sign-on.</p>
+
+<h3>The answerer prompt (answerer.py)</h3>
+<pre><code>SYSTEM = ("You answer university questions using ONLY the numbered sources provided. "
+          "Cite every sentence with its source number in square brackets, e.g. [1]. "
+          "If the sources do not answer the question, reply exactly: " + config.NEUTRAL_REPLY)</code></pre>
+<p>The prompt says nothing about roles or secrets. That is deliberate: access control should not depend on the model behaving. The answerer also returns everything it could read (<code>context</code>), not only what it cited, because a model can copy a fact from one source and cite another.</p>
+
+<h3>Scoring (eval/run_eval.py)</h3>
+<pre><code>refused = res["answer"] == config.NEUTRAL_REPLY
+leak = any(res["role"] not in REGISTER.get(d, set()) for d in cited_docs)   <span class="c"># correct register</span>
+correct = (type == "answerable" and not refused
+           and expected_doc in cited_docs and expected_keyword in answer)</code></pre>
+<p>All automatic and the same for both versions. Leaks are judged against the <em>correct</em> register even when the verifier was given a wrong one.</p>
+
+<h2 id="verifier">5. The verifier in detail</h2>
+<p>File <code>src/agents/verifier.py</code>, 187 lines. The checks run in this order; the first failing check decides.</p>
+<div class="tbl"><table>
+<tr><th>#</th><th>Check</th><th>What it reads</th><th>On failure</th><th>Why it exists</th></tr>
+<tr><td>1</td><td>Access register</td><td><code>data/access_register.csv</code>, for every chunk the answerer saw</td><td>Revise without that chunk. Unknown document = not allowed.</td><td>Catches mis-tagged documents. Tutor feedback: a verifier that reuses the index tags adds nothing.</td></tr>
+<tr><td>2</td><td>Sensitivity markers</td><td>The chunk and the whole original document from disk: labels "STAFF ONLY", "ADMIN ONLY", "HR CONFIDENTIAL", "CONFIDENTIAL" (upper case only); for students also "marking guide", "model answer", "do not share", "watch list"</td><td>Revise; block if the marker is in the answer text itself</td><td>Second line if the register is also wrong. Whole document because a label is usually written once at the top.</td></tr>
+<tr><td>3</td><td>University match</td><td>The university named in the question vs each source's university</td><td>Revise without the other university's sources</td><td>Wrong-university answers found in a user test (v1.4, fixed v1.5).</td></tr>
+<tr><td>4</td><td>Relevance</td><td>Offline: answer type + coverage ≥ 0.25. With an LLM: judge field <code>answers_question</code></td><td>Revise</td><td>Run 4: copied sentences were "supported" but did not answer the question.</td></tr>
+<tr><td>5</td><td>Support</td><td>Offline: each sentence shares ≥ 60% of its words with a source. With an LLM: judge field <code>supported</code></td><td>Revise</td><td>Catch made-up sentences.</td></tr>
+</table></div>
+<pre><code>for c in seen.values():                                  <span class="c"># every chunk shown, cited or not</span>
+    allowed = self.register.get(c["doc_id"])
+    if allowed is None:      bad.append(c)                <span class="c"># not in register: fail closed</span>
+    elif role not in allowed: bad.append(c)               <span class="c"># register says no</span>
+    elif find_markers(c["text"] + whole_document, role): bad.append(c)   <span class="c"># label in the source</span></code></pre>
+<p>Key design points to remember:</p>
+<ul>
+  <li><b>Independent inputs.</b> The verifier never reads the ChromaDB role tags. It only uses each chunk's document id to look it up in the register and to read the original file.</li>
+  <li><b>Fail closed everywhere.</b> Missing register entry, missing judge field, invalid judge JSON, model refusal: all count as "no".</li>
+  <li><b>Labels only in label form.</b> Since v1.2 "confidential" counts only as the upper-case label. Before that, nine real public policies that say "a fair and confidential process" were blocked for students.</li>
+  <li><b>Its weak spot.</b> If the register is wrong <em>and</em> the document has no label, nothing catches it. That is the one leak B had in the "register wrong" condition (the lecturer workload document has no label).</li>
+</ul>
+
+<h2 id="data">6. Documents and question sets</h2>
+<div class="tbl"><table>
+<tr><th>Corpus</th><th>What is in it</th><th>Chunks</th></tr>
+<tr><td>Mock</td><td>13 documents written by the group: 6 public, 4 staff-only, 3 admin-only. All names and numbers invented.</td><td class="n">small</td></tr>
+<tr><td>Real</td><td>16 public policies from UOW, UOW Dubai, Heriot-Watt and UNSW, plus the 7 mock restricted documents</td><td class="n">1,223</td></tr>
+<tr><td>Dubai</td><td>31 public documents from 11 universities with Dubai campuses, plus the 7 mock restricted documents</td><td class="n">4,217</td></tr>
+</table></div>
+<p>Real restricted documents are not public, so every leak test uses our mock restricted documents. Real texts are not redistributed: <code>src/fetch_real.py</code> downloads them from a manifest and checks SHA-256 hashes.</p>
+<div class="tbl"><table>
+<tr><th>Question set</th><th>Answerable / unanswerable / restricted</th><th>Role in the study</th></tr>
+<tr><td>Pilot</td><td>27 / 9 / 9</td><td>Development (tuned on)</td></tr>
+<tr><td>Held-out 1</td><td>25 / 9 / 11</td><td>Fair test in run 4, then used for development</td></tr>
+<tr><td><b>Held-out 2</b> (mock)</td><td>22 / 15 / 8</td><td><b>Fair test</b>, run 5</td></tr>
+<tr><td>Real 1</td><td>28 / 9 / 8</td><td>Development on real documents (runs 6–8)</td></tr>
+<tr><td><b>Real 2</b></td><td>20 / 20 / 5 (15 traps)</td><td><b>Fair test</b>, run 9</td></tr>
+<tr><td><b>Dubai</b></td><td>26 / 13 / 6 (8 traps)</td><td><b>Fair test</b>, run 11</td></tr>
+</table></div>
+<p>Six sets of 45 questions, 270 in total, 15 per role per set. Every row has role, type, expected document and expected keyword.</p>
+
+<h2 id="method">7. How we evaluate</h2>
+<ul>
+  <li><b>Design:</b> controlled comparison. Same questions, same index, same settings; only the verifier is switched on or off.</li>
+  <li><b>Conditions:</b> normal tagging; one document mis-tagged; every restricted document mis-tagged; every restricted document mis-tagged <em>and</em> the register wrong for them (only labels left).</li>
+  <li><b>Measures:</b> accuracy, over-refusal, refusal of unanswerable questions, leaks, latency, cost.</li>
+  <li><b>Statistics:</b> 95% Wilson intervals for rates; exact McNemar test for A vs B on the same questions; pooled McNemar across the three fair sets for leaks.</li>
+  <li><b>Reproducibility:</b> offline runs are deterministic. GitHub Actions runs the 55 tests and the full evaluation on every push and fails if any number differs from runs 5, 9 and 11.</li>
+</ul>
+<div class="say"><b>Why fair tests matter</b>Thresholds were tuned on the pilot set, so pilot numbers are optimistic. Run 4 proved it: a gain on the pilot did not carry over to new questions. Since then every change is tested on a set pushed to GitHub before the change. The commit history shows the order.</div>
+
+<h2 id="results">8. Results (offline, fair-test sets)</h2>
+<div class="tbl"><table>
+<tr><th>Normal tagging (A / B)</th><th>Held-out 2</th><th>Real 2</th><th>Dubai</th></tr>
+<tr><td>Accuracy</td><td class="n">86.4 / 86.4%</td><td class="n">55.0 / 50.0%</td><td class="n">42.3 / 46.2%</td></tr>
+<tr><td>Over-refusal</td><td class="n">4.5 / 4.5%</td><td class="n">0 / 20.0%</td><td class="n">3.8 / 23.1%</td></tr>
+<tr><td>Unanswerable refused</td><td class="n">13.3 / 26.7%</td><td class="n">10 / 90% (p &lt; 0.001)</td><td class="n">7.7 / 69.2% (p = 0.008)</td></tr>
+<tr><td>Wrong-university traps refused</td><td class="n">–</td><td class="n">1/15 / 14/15</td><td class="n">1/8 / 7/8</td></tr>
+<tr><td>Leaks</td><td class="n">0 / 0</td><td class="n">0 / 0</td><td class="n">0 / 0</td></tr>
+<tr><td>Mean latency</td><td class="n">0.8 / 0.8 ms</td><td class="n">5.1 / 8.7 ms</td><td class="n">17.3 / 58.6 ms</td></tr>
+</table></div>
+<div class="tbl"><table>
+<tr><th>Leaks on restricted questions (A / B)</th><th>Held-out 2</th><th>Real 2</th><th>Dubai</th></tr>
+<tr><td>One document mis-tagged</td><td class="n">1/8 / 0/8</td><td class="n">1/5 / 0/5</td><td class="n">0/6 / 0/6</td></tr>
+<tr><td>All restricted mis-tagged</td><td class="n">8/8 / 0/8</td><td class="n">4/5 / 0/5</td><td class="n">5/6 / 0/6</td></tr>
+<tr><td>… and register wrong</td><td class="n">8/8 / 1/8</td><td class="n">4/5 / 0/5</td><td class="n">5/6 / 0/6</td></tr>
+</table></div>
+<p>How to read it:</p>
+<ol>
+  <li><b>With correct tags, the role filter alone is enough.</b> Neither version leaked. We say this openly; it agrees with the AFR paper.</li>
+  <li><b>With tagging errors, the filter leaks almost every time and the verifier stops it.</b> Pooled: 17 of 19 vs 0 of 19, p = 0.000015. Per set only held-out 2 is significant alone, because the real sets have only 5 and 6 restricted questions.</li>
+  <li><b>The verifier turns confidently wrong answers into refusals</b> (real 2: 27 → 8 wrong-or-unsupported, dubai: 26 → 12) with the same number of correct answers. Accuracy differences are not significant on any set (paired p = 1.0).</li>
+  <li><b>The cost</b> is more refused answerable questions on real documents (20–23%) and higher latency. On Dubai most over-refusals come from one false alarm: "marking guide" appears once in a public Curtin manual.</li>
+</ol>
+
+<h2 id="claude">9. Real LLM run (Claude, run 12)</h2>
+<p>All the results above are offline. The obvious question is "does it hold with a real LLM?" So we re-ran the three fair-test sets with Claude (<code>claude-opus-5-5</code>) as both the answerer and the verifier's judge. Retrieval, documents, register, questions and scoring stayed the same, so only the language model changed. 665 API calls, US$2.83 in total, no model refusals.</p>
+<div class="tbl"><table>
+<tr><th>Three sets pooled</th><th>Offline A</th><th>Offline B</th><th>Claude A</th><th>Claude B</th></tr>
+<tr><td>Leaks, every restricted document mis-tagged</td><td class="n">17 / 19</td><td class="n">0 / 19</td><td class="n">6 / 19</td><td class="n"><b>0 / 19</b></td></tr>
+<tr><td>Leaks, normal tagging</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+<tr><td>Confidently wrong answers</td><td class="n">25</td><td class="n">16</td><td class="n">3</td><td class="n">1</td></tr>
+<tr><td>Wrong-university traps refused</td><td class="n">2 / 23</td><td class="n">21 / 23</td><td class="n">22 / 23</td><td class="n">23 / 23</td></tr>
+<tr><td>Accuracy (held-out 2 / real 2 / dubai)</td><td class="n">86 / 55 / 42%</td><td class="n">86 / 50 / 46%</td><td class="n">77 / 70 / 38%</td><td class="n">68 / 70 / 42%</td></tr>
+<tr><td>Over-refusal (held-out 2 / real 2 / dubai)</td><td class="n">5 / 0 / 4%</td><td class="n">5 / 20 / 23%</td><td class="n">23 / 30 / 50%</td><td class="n">27 / 30 / 58%</td></tr>
+<tr><td>Mean latency per question</td><td class="n">1–17 ms</td><td class="n">1–59 ms</td><td class="n">1.6–1.8 s</td><td class="n">2.4–3.2 s</td></tr>
+<tr><td>Mean cost per question</td><td class="n">$0</td><td class="n">$0</td><td class="n">$0.003–0.005</td><td class="n">$0.004–0.008</td></tr>
+</table></div>
+<ol>
+  <li><b>The leak result holds.</b> B leaked nothing. Claude often declined by itself when a source said "STAFF ONLY", so A leaked less than offline. But it still leaked 6 times (pooled McNemar p = 0.031), on sources whose text does not look secret: the lecturer workload policy (no label), where exam papers are stored, which school has the lowest retention, where misconduct case names are kept.</li>
+  <li><b>With a strong model, the verifier adds little to answer quality.</b> Claude already refuses unanswerable and wrong-university questions and rarely makes things up. The verifier's remaining job is access control.</li>
+  <li><b>Over-refusal is higher with Claude in both versions.</b> Likely cause: Claude follows "use only the sources" strictly and refuses when the retrieved chunks only partly answer. Not yet checked question by question.</li>
+  <li><b>Cost of the verifier with a real model:</b> +0.6 to 1.3 s and +23% to 66% per question.</li>
+</ol>
+<div class="warn">One counted "leak" (held-out 2, N13, Claude A) only cites the marking guide to say it cannot share it. It is scored as a leak by our rule. Without it Claude A leaks 5 of 19. Mention it if asked how leaks are scored.</div>
+<div class="say"><b>One sentence for the panel</b>A model's own caution is not access control: Claude refused most obviously secret material but still leaked six restricted answers whose text did not look secret, and only the register check stopped all of them.</div>
+
+<h2 id="stress">10. Mis-tag stress test</h2>
+<p>The main experiment uses two extremes: all tags right, or all restricted tags wrong. Real errors are in between. So we mis-tagged every possible subset of the 7 restricted documents (2<sup>7</sup> = 128 combinations) and ran 80 questions (41 restricted) through three set-ups on the Dubai corpus:</p>
+<ul>
+  <li><b>A</b>: role filter only.</li>
+  <li><b>B</b>: role filter + verifier with the correct register.</li>
+  <li><b>B, register also wrong</b>: the same person made both mistakes, so only document labels are left.</li>
+</ul>
+<p>From the 128 results we compute the exact expected leak rate if each document is mis-tagged independently with probability p. No sampling, so no random noise.</p>
+<div class="chart">
+  <div class="legend"><span style="--sw:var(--a)">A, role filter only</span><span style="--sw:var(--bl)">B, register also wrong</span><span style="--sw:var(--b)">B, correct register</span></div>
+  <svg id="stress" viewBox="0 0 720 330" role="img" aria-label="Expected share of restricted questions leaked versus mis-tag rate: Version A rises to 85% at 100%, B with a wrong register to 5%, B stays at 0%." data-points='[{"x": 56.0, "p": 1.0, "a": 0.9, "bl": 0.0}, {"x": 81.7, "p": 1.3, "a": 1.1, "bl": 0.1}, {"x": 107.4, "p": 1.6, "a": 1.4, "bl": 0.1}, {"x": 133.1, "p": 2.0, "a": 1.7, "bl": 0.1}, {"x": 158.8, "p": 2.5, "a": 2.1, "bl": 0.1}, {"x": 184.5, "p": 3.2, "a": 2.7, "bl": 0.2}, {"x": 210.2, "p": 4.0, "a": 3.4, "bl": 0.2}, {"x": 235.9, "p": 5.0, "a": 4.3, "bl": 0.2}, {"x": 261.6, "p": 6.3, "a": 5.4, "bl": 0.3}, {"x": 287.3, "p": 7.9, "a": 6.8, "bl": 0.4}, {"x": 313.0, "p": 10, "a": 8.5, "bl": 0.5}, {"x": 338.7, "p": 13, "a": 10.7, "bl": 0.6}, {"x": 364.4, "p": 16, "a": 13.5, "bl": 0.8}, {"x": 390.1, "p": 20, "a": 17.0, "bl": 1.0}, {"x": 415.8, "p": 25, "a": 21.4, "bl": 1.2}, {"x": 441.5, "p": 32, "a": 27.0, "bl": 1.5}, {"x": 467.2, "p": 40, "a": 34.0, "bl": 1.9}, {"x": 492.9, "p": 50, "a": 42.8, "bl": 2.4}, {"x": 518.6, "p": 63, "a": 53.9, "bl": 3.1}, {"x": 544.3, "p": 79, "a": 67.8, "bl": 3.9}, {"x": 570.0, "p": 100, "a": 85.4, "bl": 4.9}]' font-family="var(--f-body)"><line x1="56" x2="570" y1="284.0" y2="284.0" stroke="var(--line)" stroke-width="1"/><text x="48" y="288.0" text-anchor="end" font-size="12" fill="var(--muted)">0%</text><line x1="56" x2="570" y1="224.4" y2="224.4" stroke="var(--line)" stroke-width="1"/><text x="48" y="228.4" text-anchor="end" font-size="12" fill="var(--muted)">20%</text><line x1="56" x2="570" y1="164.9" y2="164.9" stroke="var(--line)" stroke-width="1"/><text x="48" y="168.9" text-anchor="end" font-size="12" fill="var(--muted)">40%</text><line x1="56" x2="570" y1="105.3" y2="105.3" stroke="var(--line)" stroke-width="1"/><text x="48" y="109.3" text-anchor="end" font-size="12" fill="var(--muted)">60%</text><line x1="56" x2="570" y1="45.8" y2="45.8" stroke="var(--line)" stroke-width="1"/><text x="48" y="49.8" text-anchor="end" font-size="12" fill="var(--muted)">80%</text><line x1="56.0" x2="56.0" y1="284" y2="289" stroke="var(--muted)"/><text x="56.0" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">1%</text><line x1="133.4" x2="133.4" y1="284" y2="289" stroke="var(--muted)"/><text x="133.4" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">2%</text><line x1="235.6" x2="235.6" y1="284" y2="289" stroke="var(--muted)"/><text x="235.6" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">5%</text><line x1="313.0" x2="313.0" y1="284" y2="289" stroke="var(--muted)"/><text x="313.0" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">10%</text><line x1="415.3" x2="415.3" y1="284" y2="289" stroke="var(--muted)"/><text x="415.3" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">25%</text><line x1="492.6" x2="492.6" y1="284" y2="289" stroke="var(--muted)"/><text x="492.6" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">50%</text><line x1="570.0" x2="570.0" y1="284" y2="289" stroke="var(--muted)"/><text x="570.0" y="303" text-anchor="middle" font-size="12" fill="var(--muted)">100%</text><text x="313.0" y="324" text-anchor="middle" font-size="12.5" fill="var(--ink-2)">Chance that each restricted document is mis-tagged (log scale)</text><text x="14" y="150.0" text-anchor="middle" font-size="12.5" fill="var(--ink-2)" transform="rotate(-90 14 150.0)">Restricted questions leaked</text><line id="hover-line" x1="0" x2="0" y1="16" y2="284" stroke="var(--muted)" stroke-dasharray="3 3" style="opacity:0"/><path d="M56.0,283.9 L62.4,283.8 L68.8,283.8 L75.3,283.8 L81.7,283.8 L88.2,283.8 L94.6,283.8 L101.0,283.8 L107.4,283.8 L113.8,283.8 L120.2,283.7 L126.7,283.7 L133.1,283.7 L139.5,283.7 L146.0,283.7 L152.4,283.7 L158.8,283.6 L165.2,283.6 L171.6,283.6 L178.1,283.6 L184.5,283.5 L190.9,283.5 L197.3,283.5 L203.8,283.5 L210.2,283.4 L216.6,283.4 L223.1,283.4 L229.5,283.3 L235.9,283.3 L242.3,283.2 L248.7,283.2 L255.2,283.1 L261.6,283.1 L268.0,283.0 L274.4,283.0 L280.9,282.9 L287.3,282.8 L293.7,282.8 L300.2,282.7 L306.6,282.6 L313.0,282.5 L319.4,282.5 L325.8,282.4 L332.3,282.3 L338.7,282.2 L345.1,282.1 L351.5,281.9 L358.0,281.8 L364.4,281.7 L370.8,281.6 L377.3,281.4 L383.7,281.3 L390.1,281.1 L396.5,280.9 L402.9,280.7 L409.4,280.6 L415.8,280.4 L422.2,280.1 L428.7,279.9 L435.1,279.7 L441.5,279.4 L447.9,279.1 L454.3,278.8 L460.8,278.5 L467.2,278.2 L473.6,277.9 L480.0,277.5 L486.5,277.1 L492.9,276.7 L499.3,276.3 L505.7,275.8 L512.2,275.3 L518.6,274.8 L525.0,274.3 L531.5,273.7 L537.9,273.1 L544.3,272.5 L550.7,271.8 L557.1,271.1 L563.6,270.3 L570.0,269.5" fill="none" stroke="var(--bl)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M56.0,284.0 L62.4,284.0 L68.8,284.0 L75.3,284.0 L81.7,284.0 L88.2,284.0 L94.6,284.0 L101.0,284.0 L107.4,284.0 L113.8,284.0 L120.2,284.0 L126.7,284.0 L133.1,284.0 L139.5,284.0 L146.0,284.0 L152.4,284.0 L158.8,284.0 L165.2,284.0 L171.6,284.0 L178.1,284.0 L184.5,284.0 L190.9,284.0 L197.3,284.0 L203.8,284.0 L210.2,284.0 L216.6,284.0 L223.1,284.0 L229.5,284.0 L235.9,284.0 L242.3,284.0 L248.7,284.0 L255.2,284.0 L261.6,284.0 L268.0,284.0 L274.4,284.0 L280.9,284.0 L287.3,284.0 L293.7,284.0 L300.2,284.0 L306.6,284.0 L313.0,284.0 L319.4,284.0 L325.8,284.0 L332.3,284.0 L338.7,284.0 L345.1,284.0 L351.5,284.0 L358.0,284.0 L364.4,284.0 L370.8,284.0 L377.3,284.0 L383.7,284.0 L390.1,284.0 L396.5,284.0 L402.9,284.0 L409.4,284.0 L415.8,284.0 L422.2,284.0 L428.7,284.0 L435.1,284.0 L441.5,284.0 L447.9,284.0 L454.3,284.0 L460.8,284.0 L467.2,284.0 L473.6,284.0 L480.0,284.0 L486.5,284.0 L492.9,284.0 L499.3,284.0 L505.7,284.0 L512.2,284.0 L518.6,284.0 L525.0,284.0 L531.5,284.0 L537.9,284.0 L544.3,284.0 L550.7,284.0 L557.1,284.0 L563.6,284.0 L570.0,284.0" fill="none" stroke="var(--b)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M56.0,281.5 L62.4,281.3 L68.8,281.1 L75.3,281.0 L81.7,280.8 L88.2,280.6 L94.6,280.4 L101.0,280.2 L107.4,280.0 L113.8,279.7 L120.2,279.5 L126.7,279.2 L133.1,278.9 L139.5,278.6 L146.0,278.3 L152.4,278.0 L158.8,277.6 L165.2,277.2 L171.6,276.8 L178.1,276.4 L184.5,276.0 L190.9,275.5 L197.3,275.0 L203.8,274.4 L210.2,273.9 L216.6,273.3 L223.1,272.6 L229.5,272.0 L235.9,271.3 L242.3,270.5 L248.7,269.7 L255.2,268.9 L261.6,268.0 L268.0,267.0 L274.4,266.0 L280.9,264.9 L287.3,263.8 L293.7,262.6 L300.2,261.3 L306.6,260.0 L313.0,258.6 L319.4,257.1 L325.8,255.5 L332.3,253.8 L338.7,252.0 L345.1,250.1 L351.5,248.1 L358.0,246.0 L364.4,243.7 L370.8,241.3 L377.3,238.8 L383.7,236.1 L390.1,233.3 L396.5,230.3 L402.9,227.1 L409.4,223.7 L415.8,220.1 L422.2,216.4 L428.7,212.4 L435.1,208.1 L441.5,203.6 L447.9,198.9 L454.3,193.8 L460.8,188.5 L467.2,182.8 L473.6,176.8 L480.0,170.5 L486.5,163.7 L492.9,156.6 L499.3,149.1 L505.7,141.1 L512.2,132.6 L518.6,123.6 L525.0,114.1 L531.5,104.0 L537.9,93.4 L544.3,82.1 L550.7,70.1 L557.1,57.4 L563.6,44.0 L570.0,29.8" fill="none" stroke="var(--a)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="570.0" cy="29.8" r="4" fill="var(--a)" stroke="var(--surface)" stroke-width="2"/><text x="580.0" y="33.8" font-size="12.5" fill="var(--ink)">A: 85%</text><text x="580.0" y="265.5" font-size="12.5" fill="var(--ink)">B, reg. wrong: 5%</text><text x="580.0" y="296.0" font-size="12.5" fill="var(--ink)">B: 0%</text></svg>
+  <div class="tip" id="tip" hidden></div>
+</div>
+<div class="tbl"><table>
+<tr><th>Mis-tag rate per document</th><th>1%</th><th>5%</th><th>10%</th><th>25%</th><th>100%</th></tr>
+<tr><td>Expected share of restricted questions leaked, A</td><td class="n">0.9%</td><td class="n">4.3%</td><td class="n">8.5%</td><td class="n">21.3%</td><td class="n">85.4%</td></tr>
+<tr><td>Chance of at least one leak, A</td><td class="n">6.8%</td><td class="n">30%</td><td class="n">52%</td><td class="n">87%</td><td class="n">100%</td></tr>
+<tr><td>B, correct register</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td></tr>
+<tr><td>B, register also wrong (share leaked)</td><td class="n">0%</td><td class="n">0.2%</td><td class="n">0.5%</td><td class="n">1.2%</td><td class="n">4.9%</td></tr>
+</table></div>
+<p>What it shows: A's leaks grow roughly in proportion to the error rate. At a 5% error rate there is a 30% chance that something leaks. B stays at zero at every rate. When the register is wrong too, the only remaining leak is the one unlabelled document. So the practical advice is: keep the register correct, and put a label in every restricted document. Answer quality and latency do not depend on the error rate: you pay the verifier's cost all the time, and it protects you when the tags cannot be trusted. This test ran offline and is not in the repository yet.</p>
+
+<h2 id="history">11. What broke and how we fixed it</h2>
+<p>Examiners like failures that were found, explained and fixed. We have twelve runs, each with a <code>NOTES.md</code> in <code>results/</code>.</p>
+<div class="tbl"><table>
+<tr><th>Run</th><th>What we found</th><th>What we changed</th></tr>
+<tr><td>1</td><td>Unanswerable questions answered with an off-topic sentence</td><td>Minimum match score in the answerer (v0.5)</td></tr>
+<tr><td>2–3</td><td>Pilot refusals 66.7% → 100%; run 3 reproduced it in a fresh environment</td><td>Testing report, reproduction check</td></tr>
+<tr><td>–</td><td>Tests with more mis-tagged documents: two leaked in B because the label sits only in the first chunk</td><td>Labels read from the whole original document (v0.11)</td></tr>
+<tr><td>4</td><td>On new questions the pilot gain did not hold; the verifier passed off-topic answers</td><td>Relevance check (v1.1)</td></tr>
+<tr><td>–</td><td>A fake LLM test showed an uncited context leak</td><td>Verifier checks every chunk the answerer saw</td></tr>
+<tr><td>5</td><td>Fair test on held-out 2</td><td>Main mock result</td></tr>
+<tr><td>6</td><td>"confidential" in 9 public policies blocked students (17.9% over-refusal); search not repeatable</td><td>Upper-case labels only (v1.2); deeper HNSW search, tie-break by id</td></tr>
+<tr><td>7–8</td><td>Table-of-contents lines outranked real text</td><td>Removed navigation text from extracted documents</td></tr>
+<tr><td>9</td><td>User test of the university picker showed wrong-university answers</td><td>University check (v1.5): traps refused 1/15 → 14/15</td></tr>
+<tr><td>10</td><td>B refused 85%: 15 new documents missing from the register (fail closed worked as designed)</td><td>Run marked invalid, register rebuilt, test added</td></tr>
+<tr><td>11</td><td>"marking guide" in a public Curtin manual blocks Curtin for students</td><td>Left unfixed so the Dubai set stays a fair test</td></tr>
+<tr><td>12</td><td>Claude replication</td><td>Leak result holds; quality benefit moves to the model</td></tr>
+</table></div>
+
+<h2 id="limits">12. Limitations and how we handled them</h2>
+<div class="tbl"><table>
+<tr><th>Limitation</th><th>What we did</th><th>Status</th></tr>
+<tr><td>Role filter trusts index tags</td><td>Independent register and document labels</td><td><span class="pill ok">Resolved</span> fails only if register and label are both missing</td></tr>
+<tr><td>Tuning on the test set</td><td>Fair sets pushed before each change; CI re-runs them</td><td><span class="pill ok">Resolved</span></td></tr>
+<tr><td>Non-repeatable search</td><td>Fixed HNSW depth, tie-break by chunk id</td><td><span class="pill ok">Resolved</span></td></tr>
+<tr><td>Offline LLM only</td><td>Fair tests re-run with Claude as answerer and judge</td><td><span class="pill part">Partly</span> embeddings still offline, no RAGAs</td></tr>
+<tr><td>Mock-only corpus</td><td>31 real public documents from 11 universities</td><td><span class="pill part">Partly</span> restricted documents stay mock</td></tr>
+<tr><td>Small restricted samples (5–8 per set)</td><td>Pooled McNemar; stress test over 128 combinations</td><td><span class="pill part">Partly</span></td></tr>
+<tr><td>Over-refusal on real documents</td><td>Label-form fix (run 7); causes diagnosed</td><td><span class="pill part">Partly</span> 20–23% offline, higher with Claude</td></tr>
+<tr><td>"marking guide" false alarm</td><td>Diagnosed in run 11</td><td><span class="pill open">Open</span></td></tr>
+<tr><td>No human ratings</td><td>Rubric and Cohen's kappa script ready</td><td><span class="pill open">Open</span></td></tr>
+<tr><td>Questions written with AI help</td><td>Keywords checked against documents by script</td><td><span class="pill open">Open</span></td></tr>
+</table></div>
+
+<h2 id="qa">13. Likely questions and good answers</h2>
+<p>Click a question to see the answer. Say the answer in your own words; the numbers are what matters.</p>
+
+<h3>About the idea</h3>
+<details><summary>Why not just check the tags against the register at upload time? Then you would not need a verifier.<span class="qa-tag">hardest</span></summary>
+<p>That is a good control and a real organisation should do it. But it only catches errors at the moment of upload, and only if the register is checked then. Tags can also drift later (re-indexing, a document edited and re-uploaded, a new corpus added). The verifier checks at answer time, every time, and also checks things a tag check cannot: labels inside the text, the right university, whether the answer is supported. Run 10 is an example: new documents were added without register entries and the verifier refused them instead of serving them. Our position is defence in depth, not "verifier instead of good data hygiene".</p></details>
+<details><summary>If the role filter alone gives zero leaks with correct tags, what is the point?</summary>
+<p>Exactly the case where tags are wrong. We say openly that with correct tags the filter is enough. The contribution is measuring what happens with tagging errors: A leaked 17 of 19, B 0 of 19, and the stress test shows that even a 5% error rate gives a 30% chance of a leak without the verifier.</p></details>
+<details><summary>Has nobody done this before? What is your research gap?</summary>
+<p>Parts of it exist. AFR showed that filtering before retrieval stops leaks when tags are right and that LLM guardrails alone leaked 29–41%. ContextGuard-RAG added a firewall agent. University assistants such as Carolina Guide use guardrails for request types. In the papers we reviewed we did not find a university assistant that combines role-based retrieval with a separate verifier and measures what happens when tags are wrong, with cost and latency. We describe it as a narrow gap and do not claim to be the first.</p></details>
+<details><summary>Why is a modern LLM not enough? Claude refused most restricted content by itself.</summary>
+<p>It refused material that <em>looks</em> secret. It still leaked 6 of 19 restricted answers where the text did not look secret, for example a workload policy without a label. A model cannot know your access rules; the register can. That is the same finding as AFR: guardrails alone are probabilistic.</p></details>
+<details><summary>Why one neutral reply for both "restricted" and "not found"?</summary>
+<p>If the assistant said "this is restricted", a student would learn that the secret exists. One reply for both cases hides that. It also points the user to a human (Student Central), which matters because refusals have a real cost.</p></details>
+
+<h3>About the code</h3>
+<details><summary>Where exactly is the role filter, and why inside the search?</summary>
+<p><code>src/agents/retriever.py</code>: <code>where = {"role_student": True}</code> passed to ChromaDB's query. Restricted chunks are removed before ranking, so they never reach the answerer or the LLM. Filtering after retrieval would mean restricted text is already in memory and could slip through a bug.</p></details>
+<details><summary>How does the verifier know who may see a document, if not from the tags?</summary>
+<p>From <code>data/access_register.csv</code>, a separate file with one row per document: allowed roles, owner, last reviewed. The verifier takes the document id from the chunk and looks it up there. In a real deployment this would come from the university's document permissions (for example SharePoint access lists) through a read-only account.</p></details>
+<details><summary>What does the verifier do when something fails: block or fix?</summary>
+<p>It tries to fix first. It drops the offending sources and asks the answerer to rewrite with what is left, with the reasons as feedback. One rewrite is allowed for quality problems; removing leaked sources does not use it up; at most two rewrites in total. If it still fails, the user gets the neutral reply.</p></details>
+<details><summary>Can a student pretend to be an admin?</summary>
+<p>No. The role comes from a token signed with HMAC-SHA256 at login, with an 8-hour expiry. Text in the question or a role field in the request is ignored, and an edited token fails the signature check. Four API tests cover this. The signing key is an environment variable, not in the repository.</p></details>
+<details><summary>What is "offline mode" and why build it?</summary>
+<p>A mode with no API calls: hashing embeddings instead of a neural model, an extractive answerer that copies the best sentence, and rule-based relevance and support checks. Every member can run it for free and results are exactly repeatable, which is why CI can fail on any changed number. The weakness is that it is not a real LLM, which is why we did run 12 with Claude.</p></details>
+<details><summary>Why hashing embeddings? Are they not bad?</summary>
+<p>They are weaker than neural embeddings and that hurts accuracy on large corpora (Dubai accuracy is about 42–46%). We used them for reproducibility and zero cost. Both versions use the same retrieval, so the comparison between A and B is still fair. Neural embeddings are on the to-do list; Anthropic has no embeddings API, so run 12 kept the hashing retrieval.</p></details>
+<details><summary>How is a leak counted? Is it not too strict?</summary>
+<p>A leak is any cited source the role may not see according to the correct register. It is strict on purpose. In one Claude answer this counts a citation used only to say "I cannot share this", which we report. Version B has zero leaks under either reading.</p></details>
+
+<h3>About the method and statistics</h3>
+<details><summary>Your samples are tiny. Are the results significant?</summary>
+<p>Per set, restricted questions are 5–8, so only the mock set is significant on its own (p = 0.008). Pooled over the three fair sets: 17 vs 0 discordant pairs, exact McNemar p = 0.000015. With Claude: 6 vs 0, p = 0.031. We report Wilson intervals, which are wide, and say so. The stress test adds 128 combinations of mis-tagged documents.</p></details>
+<details><summary>Why McNemar and not a chi-squared test?</summary>
+<p>Because the same questions go through both versions: the data are paired. McNemar looks only at questions where A and B disagree. We use the exact (binomial) version because counts are small.</p></details>
+<details><summary>How do we know you did not tune on the test questions?</summary>
+<p>Each fair set was committed and pushed to GitHub before the change it tests and run once. The commit history shows the order (for example the Dubai set in <code>a622f5b</code>, before run 10). When run 11 found the "marking guide" false alarm, we left it unfixed so the set stays fair.</p></details>
+<details><summary>Why is accuracy so low on the Dubai corpus?</summary>
+<p>A few very long documents crowd the top results with the offline hashing search, so the right passage is often not in the top 4. It is the same for both versions, so it does not affect the A vs B comparison. With Claude accuracy is similar, because retrieval was not changed.</p></details>
+<details><summary>Why did you not do human ratings / RAGAs as planned?</summary>
+<p>The rubric (<code>docs/HUMAN_RATING_RUBRIC.md</code>) and the Cohen's kappa script (<code>eval/kappa.py</code>) are ready, but the blind ratings were not collected. RAGAs needs a neural judge and embeddings; the Claude run covered the judge part. Both are listed as open limitations. Say this plainly.</p></details>
+
+<h3>About cost and practice</h3>
+<details><summary>What does the verifier cost?</summary>
+<p>Offline: milliseconds (17 → 59 ms on the largest corpus). With Claude: +0.6 to 1.3 s and +23% to 66% per question, about $0.001–0.003 extra. Over-refusal on real documents: 20–23% offline. The whole Claude run of 540 question-runs cost $2.83.</p></details>
+<details><summary>Would a university actually use this?</summary>
+<p>The idea, yes: an access register owned by document owners, a check at answer time, one neutral reply that points to a human. The prototype, no: it is a test bed. Someone must own the register, labels must be applied consistently, and over-refusal must come down. The system turns a silent tagging error into a visible refusal, which is the organisational benefit.</p></details>
+<details><summary>What would you do next?</summary>
+<p>Neural embeddings and RAGAs faithfulness; blind human ratings with Cohen's kappa; turn content phrases like "marking guide" into document-label checks to remove false alarms; questions collected from real students; investigate Claude's over-refusal question by question.</p></details>
+
+<h2 id="dont">14. What not to claim</h2>
+<ul>
+  <li>Do not say "first ever" or "nobody has done this". Say "in the literature we reviewed".</li>
+  <li>Do not say the verifier improves accuracy. It does not, significantly, on any set.</li>
+  <li>Do not say "zero leaks" without the condition. Version B leaked once when the register was also wrong and the document had no label.</li>
+  <li>Do not say all results use a real LLM. Runs 1–11 are offline; run 12 used Claude for answering and judging, with offline retrieval.</li>
+  <li>Do not say the restricted documents are real. They are mock; only public documents are real.</li>
+  <li>Do not say the system is ready to deploy.</li>
+  <li>Do not hide that code was written with AI help. It is declared in <code>docs/AI_USE_DECLARATION.md</code>; the design, testing and interpretation were ours.</li>
+</ul>
+
+<h2 id="team">15. Who did what</h2>
+<div class="tbl"><table>
+<tr><th>Member</th><th>Contribution</th></tr>
+<tr><td><b>Ahmed Azzam</b></td><td>Group leader. Literature review and research gap, milestone documents, answers to tutor feedback; set up the original repository and the first prototype (v0.1–v0.9).</td></tr>
+<tr><td><b>Abdulrahman Al Khayat</b></td><td>Architecture design and first diagram, technology choices, review of the agent pipeline against the design.</td></tr>
+<tr><td><b>Nikita Dvornitsyn</b></td><td>Methodology, test set design, evaluation criteria, human rating rubric; development from v0.10 to v1.8 (real documents, fair sets, runs 4–12, university and relevance checks, statistics, CI, web interface, Claude run).</td></tr>
+<tr><td><b>Hulud Ahmed</b></td><td>Mis-tagged edge case design and screenshots, development evidence log, AI-use declaration, reference checking.</td></tr>
+</table></div>
+<p>Each of you should be ready to explain your own part in depth and the headline result in one minute.</p>
+
+<h2 id="demo">16. Running the demo</h2>
+<p>Python 3.11 or 3.12 and Git. No API key needed.</p>
+<pre><code>git clone -b claude-replication https://github.com/ma3str0o0/role-aware-rag-assistant.git
+cd role-aware-rag-assistant
+python3 -m venv .venv
+source .venv/bin/activate          <span class="c"># Windows: .venv\Scripts\activate.bat</span>
+pip install -r requirements.txt
+python run_demo.py                 <span class="c"># opens http://localhost:8501</span></code></pre>
+<p>Use <code>python run_demo.py --corpus mock</code> for a fast start without downloads. To reproduce the numbers: <code>pytest</code> (55 tests) and <code>python -m eval.run_eval</code>.</p>
+<h3>A three-minute live demo</h3>
+<ol>
+  <li>Log in as <b>student1</b>. Ask "How many days do I have to apply for special consideration?" Both versions answer with a citation.</li>
+  <li>Ask "What marks does the CSIT305 marking guide give?" Both give the neutral reply: the filter works with correct tags.</li>
+  <li>Switch on the <b>mis-tag</b> option and ask again in compare mode. Version A cites the marking guide (flagged "Restricted source shown"). Version B blocks it and the trace shows "register: staff_csit305_marking_guide not allowed for student".</li>
+  <li>Choose a university and ask a question about another one (a wrong-university trap). A answers from the wrong university; B refuses.</li>
+  <li>Log in as <b>admin1</b> and ask the restricted question: the admin gets the answer. Same question, different role, different result.</li>
+</ol>
+</main>
+</div>
+
+<script>
+(function(){
+  var svg=document.getElementById('stress'); var tip=document.getElementById('tip');
+  if(!svg||!tip) return;
+  var data=JSON.parse(svg.getAttribute('data-points'));
+  var box=svg.parentNode;
+  function show(ev){
+    var r=svg.getBoundingClientRect(); var vb=svg.viewBox.baseVal;
+    var x=(ev.clientX-r.left)*vb.width/r.width;
+    var best=null,d=1e9;
+    data.forEach(function(p){var dd=Math.abs(p.x-x); if(dd<d){d=dd;best=p;}});
+    if(!best||x<data[0].x-10||x>data[data.length-1].x+10){tip.hidden=true;return;}
+    tip.innerHTML='Mis-tag rate '+best.p+'%<br>A: '+best.a+'% · B (register also wrong): '+best.bl+'% · B: 0%';
+    tip.hidden=false;
+    var br=box.getBoundingClientRect();
+    var left=best.x*r.width/vb.width+(r.left-br.left)+12;
+    if(left+tip.offsetWidth>br.width-8) left=left-tip.offsetWidth-24;
+    tip.style.left=left+'px'; tip.style.top=(ev.clientY-br.top-40)+'px';
+    var g=document.getElementById('hover-line'); g.setAttribute('x1',best.x); g.setAttribute('x2',best.x); g.style.opacity=1;
+  }
+  svg.addEventListener('mousemove',show);
+  svg.addEventListener('mouseleave',function(){tip.hidden=true;document.getElementById('hover-line').style.opacity=0;});
+})();
+</script>
+
+</body>
+</html>
