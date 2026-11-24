@@ -148,7 +148,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   <div class="meta-row">
     <span>Repository: <b><a href="https://github.com/ma3str0o0/role-aware-rag-assistant">github.com/ma3str0o0/role-aware-rag-assistant</a></b> (fork of Ahmed's repo)</span>
     <span>Started from: <b>v0.9</b> <code>4f5e8d2</code></span>
-    <span>Now: <b>v1.6.1</b></span>
+    <span>Now: <b>v1.8.0</b></span>
     <span>Tests: <b>55 passing</b>, CI green</span>
   </div>
 </header>
@@ -176,7 +176,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   <div class="figs">
     <div class="fig"><span class="n">31</span><span class="l">real public policy documents from 11 universities, mostly Dubai campuses</span></div>
     <div class="fig"><span class="n">270</span><span class="l">labelled questions in 6 sets (45 in v0.9)</span></div>
-    <div class="fig"><span class="n">11</span><span class="l">evaluation runs, each with notes on what changed and why</span></div>
+    <div class="fig"><span class="n">12</span><span class="l">evaluation runs (the last with Claude as a real LLM), plus a 128-combination mis-tag stress test</span></div>
     <div class="fig"><span class="n">14 → 55</span><span class="l">automated tests; CI re-runs the full evaluation on every push</span></div>
   </div>
 </section>
@@ -260,7 +260,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
 
 <section id="changes">
   <h2>What was done after v0.9</h2>
-  <p>All dates are 16–17 Nov 2026. Commit IDs and the step-by-step session log are in <code>docs/DEVELOPMENT_LOG.md</code>.</p>
+  <p>All dates are 16–24 Nov 2026. Commit IDs and the step-by-step session log are in <code>docs/DEVELOPMENT_LOG.md</code>.</p>
   <div class="tbl"><table>
     <thead><tr><th>Version</th><th>What changed</th><th>Why (evidence)</th></tr></thead>
     <tbody>
@@ -275,6 +275,8 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
       <tr><td class="ver">v1.5</td><td>Verifier rejects sources from a university the question does not name; sources labelled real or mock</td><td>Closes the v1.4 gap; Nikita asked whether a salary answer was real (it is mock)</td></tr>
       <tr><td class="ver">v1.6</td><td>Dubai corpus: 7 more universities, campuses merged under Dubai</td><td>Team request to focus on the Dubai market</td></tr>
       <tr><td class="ver">v1.6.1</td><td>One-command start, README quick start and test guide; crash after API restart fixed; pop-up layout fixed</td><td>So the team can test it; found by Nikita and by a fresh-clone test</td></tr>
+      <tr><td class="ver">v1.7</td><td>Interface rework (pinned chat input, sections, chat-style feed, university choice in the sidebar); Figure 1 redrawn to match the code; this guide</td><td>The page was cramped and the old figure no longer matched the code</td></tr>
+      <tr><td class="ver">v1.8</td><td>Run 12 with Claude as answerer and judge; mis-tag stress test over all 128 subsets of restricted documents; personal contributions in the README</td><td>Tutor asked for a real-LLM test and each member's contribution; the main experiment only tested the two extremes of tagging errors</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -290,8 +292,12 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
       <tr><td>8</td><td>real / real 1</td><td class="num">78.6% vs 78.6%</td><td class="num">22.2% vs 44.4%</td><td class="num">8/8 vs 0/8 (p = 0.008)</td></tr>
       <tr><td>9</td><td>real / real 2</td><td class="num">55.0% vs 50.0%</td><td class="num">10% vs 90% (p &lt; 0.001)</td><td class="num">4/5 vs 0/5</td></tr>
       <tr><td>11</td><td>dubai / dubai</td><td class="num">42.3% vs 46.2%</td><td class="num">7.7% vs 69.2% (p = 0.008)</td><td class="num">5/6 vs 0/6</td></tr>
+      <tr><td>12</td><td>all three fair sets, <b>Claude</b></td><td class="num">77/70/38% vs 68/70/42%</td><td class="num">96% vs 100% (pooled)</td><td class="num">6/19 vs 0/19 (p = 0.031)</td></tr>
     </tbody>
   </table></div>
+  <h3>Real LLM (run 12) and stress test</h3>
+  <p><b>Claude as answerer and judge</b> (retrieval unchanged, 665 API calls, US$2.83): Version B again leaked nothing with every restricted document mis-tagged. Claude often refused obviously secret material by itself, so Version A leaked less than offline (6 of 19 instead of 17 of 19), but still leaked where the text did not look secret. With a strong model the answerer already refuses wrong-university and unanswerable questions, so the verifier's remaining job is access control, at +0.6–1.3 s and +23–66% cost per question. Details: <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/results/run12_claude/NOTES.md"><code>results/run12_claude/NOTES.md</code></a>.</p>
+  <p><b>Stress test:</b> every subset of the 7 restricted documents was mis-tagged in turn (128 runs). At a 5% per-document error rate Version A has a 30% chance of leaking something, at 10% about 52%; Version B stays at 0 at every rate. Details: <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/results/stress_mistag/NOTES.md"><code>results/stress_mistag/NOTES.md</code></a>.</p>
   <h3>What we can say in the paper</h3>
   <ul>
     <li><b>Leaks:</b> across every set and condition, Version B never added a leak and stopped every leak it had an independent signal for. The only B leak is an unlabelled document when the register is wrong too, which is the design's stated limit.</li>
@@ -306,15 +312,17 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   <div class="tbl"><table>
     <thead><tr><th>Feedback</th><th>Status</th><th>Where</th></tr></thead>
     <tbody>
-      <tr><td>Research, not a development project</td><td><span class="pill ok">Done</span></td><td>Every change measured A vs B on frozen sets; 11 runs with notes</td></tr>
+      <tr><td>Research, not a development project</td><td><span class="pill ok">Done</span></td><td>Every change measured A vs B on frozen sets; 12 runs with notes</td></tr>
       <tr><td>Verifier must have independent access to permissions</td><td><span class="pill ok">Done, strengthened</span></td><td><code>docs/ACCESS_CONTROL.md</code>; tests for every restricted document with tag and register both wrong</td></tr>
-      <tr><td>Exact models</td><td><span class="pill ok">Done</span></td><td>README: gpt-4o-mini (temperature 0), text-embedding-3-small</td></tr>
+      <tr><td>Exact models</td><td><span class="pill ok">Done</span></td><td>README: gpt-4o-mini (temperature 0), text-embedding-3-small; run 12 used claude-opus-5-5</td></tr>
       <tr><td>Human-rating rubric and Cohen's kappa</td><td><span class="pill part">Tools only</span></td><td><code>docs/HUMAN_RATING_RUBRIC.md</code>, <code>eval/kappa.py</code>; the ratings themselves are not done</td></tr>
       <tr><td>Show real iteration from pilot tests</td><td><span class="pill ok">Done</span></td><td><code>docs/TESTING.md</code> "problems found and what we changed"</td></tr>
       <tr><td>Links to GitHub</td><td><span class="pill part">Repo yes, document no</span></td><td>Repo and releases exist; the link is not yet in the SharePoint document</td></tr>
-      <tr><td>Development evidence log</td><td><span class="pill ok">Done</span></td><td><code>docs/DEVELOPMENT_LOG.md</code> (versions, commits, 40 logged steps)</td></tr>
+      <tr><td>Development evidence log</td><td><span class="pill ok">Done</span></td><td><code>docs/DEVELOPMENT_LOG.md</code> (versions, commits, 57 logged steps)</td></tr>
       <tr><td>Detailed testing and validation section</td><td><span class="pill ok">Done in repo</span></td><td><code>docs/TESTING.md</code>: 55 tests, expected vs actual, runs, statistics; still to be summarised into the paper</td></tr>
       <tr><td>Test data sets, why 30 per role, parameter tuning, user metadata</td><td><span class="pill ok">Done</span></td><td><code>docs/DATASET.md</code>, <code>TESTING.md</code> sections 2–3, <code>ACCESS_CONTROL.md</code></td></tr>
+      <tr><td>Test with a real LLM; limitations and how we handled them</td><td><span class="pill ok">Done</span></td><td>Run 12 with Claude; limitations table with status in <code>TESTING.md</code> section 6 and in the paper</td></tr>
+      <tr><td>Each member's personal contribution</td><td><span class="pill ok">Done</span></td><td>Top of the README</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -322,8 +330,8 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
 <section id="open">
   <h2>Still open before submission</h2>
   <ol>
-    <li><b>The 6-page IEEE paper.</b> Not written yet. The group document is 17 pages; each page over 6 costs 10 points. Use the fair-test figures (runs 9 and 11), not the pilot.</li>
-    <li><b>OpenAI-mode run</b> (needs an API key): the main experiment in the methodology, plus RAGAs faithfulness. The LLM relevance judge is implemented but unmeasured.</li>
+    <li><b>The 6-page IEEE paper.</b> Full draft exists (5 pages, fair-test figures, run 12, limitations table); the group still has to review it and confirm authors.</li>
+    <li><b>RAGAs faithfulness and neural embeddings.</b> The real-LLM run is done with Claude (run 12); retrieval still uses offline embeddings.</li>
     <li><b>Human ratings + Cohen's kappa</b> by two members, using the rubric and <code>eval/kappa.py</code>.</li>
     <li><b>Group document:</b> add the GitHub link, the new results, and update Figure 1 to show the access register.</li>
     <li><b>Merge this fork into Ahmed's repository</b> through a pull request, after the team has reviewed it.</li>
@@ -339,7 +347,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <thead><tr><th>Document</th><th>What it contains</th></tr></thead>
     <tbody>
       <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/DEVELOPMENT_LOG.md">Development log</a></td><td>Every version and every working session, step by step, with commits and results.</td></tr>
-      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/TESTING.md">Testing report</a></td><td>Unit tests, evaluation runs 1–11, what each run changed and why.</td></tr>
+      <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/TESTING.md">Testing report</a></td><td>Unit tests, evaluation runs 1–12, the mis-tag stress test, what each run changed and why.</td></tr>
       <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/DATASET.md">Datasets</a></td><td>Where every document and question set comes from and how to rebuild them.</td></tr>
       <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/ACCESS_CONTROL.md">Access control</a></td><td>Roles, the access register, sensitivity labels and the threat model.</td></tr>
       <tr><td><a href="https://github.com/ma3str0o0/role-aware-rag-assistant/blob/main/docs/AI_USE_DECLARATION.md">AI-use declaration</a></td><td>What AI tools did, and how the group checked their output.</td></tr>
