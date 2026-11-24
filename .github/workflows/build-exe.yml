@@ -6,7 +6,6 @@ name: build app
 on:
   push:
     tags: ["v*"]
-    branches: [exe-build]
   workflow_dispatch:
     inputs:
       release_tag:
