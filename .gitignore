@@ -9,3 +9,5 @@ logs/
 data/real/raw/
 data/real/docs/
 assets/logos/
+build/
+dist/

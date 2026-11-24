@@ -2,6 +2,11 @@
 
 Versions v0.1–v0.9 are described in `docs/DEVELOPMENT_LOG.md`. Each version below is tagged in git.
 
+## v1.8.1 (24 Nov 2026)
+- Desktop app: `UniAssist.exe` for Windows (and a macOS build) made with PyInstaller (`packaging/build_exe.py`); no Python needed. `run_demo.py` is the entry point and, when frozen, starts copies of itself for the API, the web page, the document download and the index build.
+- GitHub Actions (`.github/workflows/build-exe.yml`) builds both on every version tag, starts each build and asks it one question, then attaches the zips to the release.
+- README: "Download the app" section.
+
 ## v1.8.0 (24 Nov 2026)
 - Run 12: the three fair-test sets (held-out 2, real 2, dubai) with Claude (`claude-opus-5-5`) as answerer and judge; retrieval unchanged. Version B: 0/19 leaks with every restricted document mis-tagged (Claude A: 6/19; offline A: 17/19). Total cost $2.83. See `results/run12_claude/NOTES.md`.
 - `eval/claude_llm.py` (Claude drop-in for `src/llm.LLM`, budget cap, fail-closed on refusal), `eval/run_claude.py`, `eval/compare_claude.py`.

@@ -16,6 +16,14 @@ Group 3 (Tue 02:30), CSIT305. Each member's work is listed below with where to f
 **📘 Project guide:** [ma3str0o0.github.io/role-aware-rag-assistant](https://ma3str0o0.github.io/role-aware-rag-assistant/)
 (architecture, what changed since v0.9, results, tutor feedback and open items on one page)
 
+## Download the app (Windows, no Python needed)
+
+1. Open the [latest release](https://github.com/ma3str0o0/role-aware-rag-assistant/releases/latest) and download **`UniAssist-windows.zip`** (a macOS build, `UniAssist-macos.zip`, is there too).
+2. Unzip it anywhere you can write to (for example Downloads), open the `UniAssist` folder and double-click **`UniAssist.exe`**.
+3. A console window shows the progress: the first start downloads 31 public university documents (about a minute) and builds the search index; then **http://localhost:8501** opens in your browser. Close the console window or press **Ctrl+C** to stop.
+
+Windows may warn that the app is from an unknown publisher (it is not code-signed): choose **More info → Run anyway**. For a fast start without downloads, run `UniAssist.exe --corpus mock` from a Command Prompt in that folder. The app is built from this repository by GitHub Actions (`.github/workflows/build-exe.yml`, `packaging/build_exe.py`) and runs fully offline apart from the document download.
+
 ## Quick start (about 5 minutes)
 
 You need **Python 3.11 or 3.12** ([python.org](https://www.python.org/downloads/)) and **Git**. No API key
