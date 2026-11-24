@@ -122,7 +122,7 @@ html{scroll-behavior:smooth}
   <p class="eyebrow">CSIT305 · Group 3 · Defence guide</p>
   <h1>Accurate and role-safe? A verifier agent in a role-aware RAG assistant</h1>
   <p class="lede">Everything you need to answer questions about our project: what it does, how the code works, what we measured, what went wrong, and what we can and cannot claim. Read sections 1, 3, 5 and 8 first if you only have twenty minutes.</p>
-  <div class="meta"><span>Repository: <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/tree/claude-replication">ma3str0o0/role-aware-rag-assistant</a> (branch <code>claude-replication</code>, v1.8.0)</span><span>Online guide: <a href="https://ma3str0o0.github.io/role-aware-rag-assistant/">ma3str0o0.github.io/role-aware-rag-assistant</a></span><span>Updated 24 Nov 2026</span></div>
+  <div class="meta"><span>Repository: <a href="https://github.com/ma3str0o0/role-aware-rag-assistant/tree/claude-replication">ma3str0o0/role-aware-rag-assistant</a> (v1.8.0, branch <code>main</code>)</span><span>Online guide: <a href="https://ma3str0o0.github.io/role-aware-rag-assistant/">ma3str0o0.github.io/role-aware-rag-assistant</a></span><span>Updated 24 Nov 2026</span></div>
 </header>
 
 <h2 id="one-minute">1. The project in one minute</h2>
@@ -361,7 +361,7 @@ correct = (type == "answerable" and not refused
 <tr><td>B, correct register</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td></tr>
 <tr><td>B, register also wrong (share leaked)</td><td class="n">0%</td><td class="n">0.2%</td><td class="n">0.5%</td><td class="n">1.2%</td><td class="n">4.9%</td></tr>
 </table></div>
-<p>What it shows: A's leaks grow roughly in proportion to the error rate. At a 5% error rate there is a 30% chance that something leaks. B stays at zero at every rate. When the register is wrong too, the only remaining leak is the one unlabelled document. So the practical advice is: keep the register correct, and put a label in every restricted document. Answer quality and latency do not depend on the error rate: you pay the verifier's cost all the time, and it protects you when the tags cannot be trusted. This test ran offline and is not in the repository yet.</p>
+<p>What it shows: A's leaks grow roughly in proportion to the error rate. At a 5% error rate there is a 30% chance that something leaks. B stays at zero at every rate. When the register is wrong too, the only remaining leak is the one unlabelled document. So the practical advice is: keep the register correct, and put a label in every restricted document. Answer quality and latency do not depend on the error rate: you pay the verifier's cost all the time, and it protects you when the tags cannot be trusted. This test ran offline; scripts and results are in <code>eval/mistag_stress.py</code> and <code>results/stress_mistag/</code>.</p>
 
 <h2 id="history">11. What broke and how we fixed it</h2>
 <p>Examiners like failures that were found, explained and fixed. We have twelve runs, each with a <code>NOTES.md</code> in <code>results/</code>.</p>
@@ -470,7 +470,7 @@ correct = (type == "answerable" and not refused
 
 <h2 id="demo">16. Running the demo</h2>
 <p>Python 3.11 or 3.12 and Git. No API key needed.</p>
-<pre><code>git clone -b claude-replication https://github.com/ma3str0o0/role-aware-rag-assistant.git
+<pre><code>git clone https://github.com/ma3str0o0/role-aware-rag-assistant.git
 cd role-aware-rag-assistant
 python3 -m venv .venv
 source .venv/bin/activate          <span class="c"># Windows: .venv\Scripts\activate.bat</span>
