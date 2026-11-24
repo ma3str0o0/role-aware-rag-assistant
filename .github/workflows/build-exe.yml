@@ -1,0 +1,79 @@
+name: build app
+
+# Builds the desktop app with PyInstaller, checks that it starts and answers a question, and
+# attaches the zip to the GitHub release. Runs on every version tag; can also be started by hand
+# (Actions -> build app -> Run workflow), optionally attaching the result to an existing tag.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Attach the builds to this release tag (e.g. v1.8.0); empty = build only"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows
+            exe: dist/UniAssist/UniAssist.exe
+          - os: macos-latest
+            name: macos
+            exe: dist/UniAssist/UniAssist
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller==6.16.0
+      - name: Build
+        run: python packaging/build_exe.py
+      - name: Smoke test (mock corpus, ask one question through the built app)
+        shell: bash
+        run: |
+          "${{ matrix.exe }}" --corpus mock --no-browser --api-port 8031 --ui-port 8531 > app.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://localhost:8531 >/dev/null && curl -sf http://localhost:8031/health >/dev/null && break; sleep 2; done
+          TOKEN=$(curl -sf -X POST http://localhost:8031/login -H 'content-type: application/json' -d '{"username":"student1"}' | python -c "import sys,json;print(json.load(sys.stdin)['token'])")
+          ANSWER=$(curl -sf -X POST http://localhost:8031/ask -H "authorization: Bearer $TOKEN" -H 'content-type: application/json' \
+            -d '{"question":"How many days do I have to apply for special consideration?","version":"B"}')
+          echo "$ANSWER" | python -c "import sys,json;r=json.load(sys.stdin);print(r['verifier_decision'],r['answer']);assert 'three' in r['answer'].lower()"
+      - name: Show app log
+        if: always()
+        shell: bash
+        run: cat app.log || true
+      - name: Stop the app
+        if: always()
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then taskkill //F //IM UniAssist.exe || true; else pkill -f dist/UniAssist/UniAssist || true; fi
+          sleep 3
+          rm -rf dist/UniAssist/_internal/.chroma dist/UniAssist/_internal/logs
+      - name: Zip
+        shell: bash
+        run: python -c "import shutil;shutil.make_archive('dist/UniAssist-${{ matrix.name }}','zip','dist','UniAssist')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UniAssist-${{ matrix.name }}
+          path: dist/UniAssist-${{ matrix.name }}.zip
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/') || inputs.release_tag != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.release_tag || github.ref_name }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "$TAG" --notes "See CHANGELOG.md. Download UniAssist-windows.zip, unzip it and run UniAssist.exe."
+          gh release upload "$TAG" "dist/UniAssist-${{ matrix.name }}.zip" --clobber
