@@ -5,6 +5,9 @@ runs 5, 9 and 11. Needs Anthropic credentials (`ant auth login` or ANTHROPIC_API
 `pip install anthropic`. Phases: smoke (6 questions, cost estimate) -> full run, with a hard budget cap.
 
     python -m eval.run_claude --budget 30 --out results/run12_claude
+    python -m eval.run_claude --no-smoke --out results/run12_claude/rep2      # repeat (Claude is not deterministic)
+    python -m eval.run_claude --no-smoke --conditions mistagged mistagged_all_bad_register \
+        --out results/run12_claude/extra_conditions
 """
 import argparse
 import csv
@@ -22,6 +25,7 @@ import anthropic  # noqa: E402
 
 from src import config  # noqa: E402
 from src.orchestrator import Orchestrator  # noqa: E402
+from src.agents.verifier import Verifier  # noqa: E402
 import eval.run_eval as run_eval  # noqa: E402
 from eval.claude_llm import ClaudeLLM, BudgetExceeded, MODEL, EFFORT  # noqa: E402
 
@@ -67,6 +71,8 @@ def main():
     ap.add_argument("--budget", type=float, default=30.0)
     ap.add_argument("--wait", type=int, default=0, help="seconds to wait for credentials")
     ap.add_argument("--out", type=Path, default=REPO / "results" / "run12_claude")
+    ap.add_argument("--conditions", nargs="+", default=list(CONDITIONS), choices=list(run_eval.CONDITIONS))
+    ap.add_argument("--no-smoke", action="store_true", help="skip the 6-question cost estimate")
     args = ap.parse_args()
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
@@ -75,17 +81,24 @@ def main():
     llm = ClaudeLLM(config.NEUTRAL_REPLY, args.budget, out / "calls.jsonl")
     print(f"model={MODEL} effort={EFFORT} budget=${args.budget}", flush=True)
 
-    per_q = smoke(llm)
-    n_runs = sum(45 for _ in PLAN) * len(CONDITIONS) * 2
-    est = per_q * n_runs
-    print(f"estimated full run: {n_runs} question-runs, ~${est:.2f}", flush=True)
-    if est > args.budget - llm.spent:
-        raise SystemExit(f"estimate ${est:.2f} exceeds remaining budget ${args.budget - llm.spent:.2f}; stopping")
+    conditions = tuple(args.conditions)
+    if not args.no_smoke:
+        per_q = smoke(llm)
+        n_runs = sum(45 for _ in PLAN) * len(conditions) * 2
+        est = per_q * n_runs
+        print(f"estimated full run: {n_runs} question-runs, ~${est:.2f}", flush=True)
+        if est > args.budget - llm.spent:
+            raise SystemExit(f"estimate ${est:.2f} exceeds remaining budget ${args.budget - llm.spent:.2f}; stopping")
 
-    # Inject Claude into the evaluation harness; keep two tagging conditions.
-    run_eval.CONDITIONS = CONDITIONS
-    run_eval.make_orchestrator = lambda col, version, condition: Orchestrator(
-        col, use_verifier=(version == "B"), llm=llm, log=False)
+    # Inject Claude into the evaluation harness, with the same per-condition setup as run_eval.
+    def make_orchestrator(col, version, condition):
+        orch = Orchestrator(col, use_verifier=(version == "B"), llm=llm, log=False)
+        if version == "B" and condition == "mistagged_all_bad_register":
+            orch.verifier = Verifier(llm, register={d: set(config.ROLES) for d in run_eval.REGISTER})
+        return orch
+
+    run_eval.CONDITIONS = conditions
+    run_eval.make_orchestrator = make_orchestrator
 
     for set_name, corpus, ref in PLAN:
         config.CORPUS = corpus
@@ -99,7 +112,7 @@ def main():
         print(f"{set_name} done in {(time.time() - t0) / 60:.1f} min, spent so far ${llm.spent:.2f}", flush=True)
 
     (out / "run_info.json").write_text(json.dumps({
-        "model": MODEL, "effort": EFFORT, "conditions": CONDITIONS, "sets": [p[0] for p in PLAN],
+        "model": MODEL, "effort": EFFORT, "conditions": conditions, "sets": [p[0] for p in PLAN],
         "calls": llm.calls, "refusals": llm.refusals, "spent_usd": round(llm.spent, 4),
         "finished": time.strftime("%Y-%m-%d %H:%M")}, indent=2))
     print(f"\nALL DONE: {llm.calls} calls, {llm.refusals} refusals, ${llm.spent:.2f}", flush=True)
