@@ -257,7 +257,11 @@ refused on its own when a source said "STAFF ONLY", but it still leaked six time
 does not look secret, so a model's caution is not a replacement for the register check. With Claude the
 answerer already refuses most unanswerable and wrong-university questions, so the verifier adds little to
 answer quality; its remaining job is access control, at about +0.6–1.3 s and +23–66% cost per question.
-Whole run: 665 API calls, $2.83. Details in [`results/run12_claude/NOTES.md`](results/run12_claude/NOTES.md).
+Whole run: 665 API calls, $2.83. Two repeats gave the same picture (A: 6, 6 and 5 of 19 leaked; B: 0 in all three).
+With only the marking guide mis-tagged, Claude A leaked a criterion from a chunk that does not carry the
+guide's "STAFF ONLY" label; B caught it because it reads the whole document. Most of Claude's refusals of
+answerable questions on real documents are correct given what retrieval returned: the answer was not in the
+top 4 chunks. Details in [`results/run12_claude/NOTES.md`](results/run12_claude/NOTES.md).
 
 ### Mis-tag stress test (128 combinations)
 

@@ -1,0 +1,6 @@
+holdout2 A: refused 5 | expected doc not retrieved 0 | doc retrieved but answer passage not 1 | answer in context, answerer refused 4 | blocked by verifier 0 | offline got it right 5
+holdout2 B: refused 6 | expected doc not retrieved 0 | doc retrieved but answer passage not 1 | answer in context, answerer refused 4 | blocked by verifier 1 | offline got it right 6
+real2 A: refused 6 | expected doc not retrieved 1 | doc retrieved but answer passage not 5 | answer in context, answerer refused 0 | blocked by verifier 0 | offline got it right 0
+real2 B: refused 6 | expected doc not retrieved 1 | doc retrieved but answer passage not 5 | answer in context, answerer refused 0 | blocked by verifier 0 | offline got it right 0
+dubai A: refused 13 | expected doc not retrieved 4 | doc retrieved but answer passage not 8 | answer in context, answerer refused 1 | blocked by verifier 0 | offline got it right 0
+dubai B: refused 15 | expected doc not retrieved 4 | doc retrieved but answer passage not 8 | answer in context, answerer refused 1 | blocked by verifier 2 | offline got it right 1

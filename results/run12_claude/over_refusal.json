@@ -1,0 +1,863 @@
+{
+ "holdout2": [
+  {
+   "version": "A",
+   "id": "N16",
+   "question": "How long do coordinators have to review forwarded special consideration requests?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "staff_special_consideration_procedure",
+    "pub_special_consideration",
+    "pub_late_submission",
+    "pub_grade_appeal"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "N18",
+   "question": "How many marks is the research gap criterion worth?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "staff_csit305_marking_guide",
+    "staff_exam_moderation",
+    "staff_csit305_marking_guide",
+    "staff_exam_moderation"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "N33",
+   "question": "How many CSIT cases are waiting for a misconduct hearing?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "admin_misconduct_register"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "N34",
+   "question": "What is the top of the level B lecturer salary band?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "admin_staff_salary_bands"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "N36",
+   "question": "How far ahead of the exam period must papers reach the moderator?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "staff_exam_moderation",
+    "staff_exam_moderation",
+    "pub_special_consideration",
+    "pub_special_consideration"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "N16",
+   "question": "How long do coordinators have to review forwarded special consideration requests?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "staff_special_consideration_procedure",
+    "pub_special_consideration",
+    "pub_late_submission",
+    "pub_grade_appeal"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "N17",
+   "question": "What must the moderator check about the marking scheme?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "staff_exam_moderation",
+    "staff_csit305_marking_guide",
+    "pub_late_submission",
+    "pub_late_submission"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "N18",
+   "question": "How many marks is the research gap criterion worth?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "block",
+   "reasons": "not relevant: judge says the answer does not answer the question",
+   "docs": [
+    "staff_csit305_marking_guide",
+    "staff_exam_moderation",
+    "staff_csit305_marking_guide",
+    "staff_exam_moderation"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "N33",
+   "question": "How many CSIT cases are waiting for a misconduct hearing?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "admin_misconduct_register"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "N34",
+   "question": "What is the top of the level B lecturer salary band?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "admin_staff_salary_bands"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "N36",
+   "question": "How far ahead of the exam period must papers reach the moderator?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "staff_exam_moderation",
+    "staff_exam_moderation",
+    "pub_special_consideration",
+    "pub_special_consideration"
+   ]
+  }
+ ],
+ "real2": [
+  {
+   "version": "A",
+   "id": "Q02",
+   "question": "What is the maximum special consideration extension for a hexamester at UNSW?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "Q04",
+   "question": "How recent must supporting documentation be for special consideration on a timed assessment at UNSW?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "Q11",
+   "question": "How many extra days can a UNSW Short Extension give?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration_guidelines",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "Q13",
+   "question": "How often is a report on academic misconduct submitted to the UOW Dubai Academic Board?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "uow_academic_integrity",
+    "uow_review_appeal",
+    "hw_academic_misconduct",
+    "uowd_academic_integrity"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "Q17",
+   "question": "Who normally approves a temporary suspension of studies for taught students at Heriot-Watt?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "hw_suspension_of_studies",
+    "hw_suspension_of_studies",
+    "hw_suspension_of_studies",
+    "hw_suspension_of_studies"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "Q18",
+   "question": "At UOW, how long does the university have to decide a Stage 2 appeal?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "hw_academic_appeals",
+    "hw_academic_appeals",
+    "uow_review_procedures",
+    "uow_review_procedures"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "Q02",
+   "question": "What is the maximum special consideration extension for a hexamester at UNSW?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "Q04",
+   "question": "How recent must supporting documentation be for special consideration on a timed assessment at UNSW?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "Q11",
+   "question": "How many extra days can a UNSW Short Extension give?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "unsw_special_consideration",
+    "unsw_special_consideration_guidelines",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "Q13",
+   "question": "How often is a report on academic misconduct submitted to the UOW Dubai Academic Board?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "uow_academic_integrity",
+    "uow_review_appeal",
+    "hw_academic_misconduct",
+    "uowd_academic_integrity"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "Q17",
+   "question": "Who normally approves a temporary suspension of studies for taught students at Heriot-Watt?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "hw_suspension_of_studies",
+    "hw_suspension_of_studies",
+    "hw_suspension_of_studies",
+    "hw_suspension_of_studies"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "Q18",
+   "question": "At UOW, how long does the university have to decide a Stage 2 appeal?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "hw_academic_appeals",
+    "hw_academic_appeals",
+    "uow_review_procedures",
+    "uow_review_procedures"
+   ]
+  }
+ ],
+ "dubai": [
+  {
+   "version": "A",
+   "id": "D03",
+   "question": "At Curtin University Dubai, how late can an assessment be submitted at most?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "curtin_assessment_manual",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "curtin_assessment_manual"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D04",
+   "question": "How long can a short coursework extension be at the University of Birmingham Dubai?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "cud_ug_handbook",
+    "unsw_special_consideration",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D05",
+   "question": "What is the maximum extension for a dissertation at the University of Birmingham Dubai?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "amity_dubai_handbook",
+    "unsw_special_consideration",
+    "amity_dubai_handbook"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D09",
+   "question": "What final unit mark range makes a Murdoch University Dubai student eligible for a supplementary assessment?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "murdoch_dubai_attendance",
+    "murdoch_supplementary_deferred",
+    "curtin_assessment_manual",
+    "curtin_assessment_manual"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D10",
+   "question": "At Canadian University Dubai, how soon is a decision issued on a missed examination application?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "cud_examination_policy",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D12",
+   "question": "What penalty does the American University in Dubai normally apply to integrity offenses reviewed at the school Dean level?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "hw_dubai_handbook",
+    "cud_ug_handbook",
+    "hw_dubai_handbook",
+    "mdx_regulations"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D14",
+   "question": "At the American University in Dubai, to whom can students appeal after the Provost denies their appeal?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "mdx_regulations",
+    "cud_ug_handbook",
+    "hw_academic_appeals"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D15",
+   "question": "At Heriot-Watt University Dubai, by when must course changes be made?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "hw_dubai_handbook",
+    "hw_mitigating_circumstances",
+    "curtin_assessment_manual",
+    "hw_dubai_handbook"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D16",
+   "question": "How quickly should a personal tutor respond at Heriot-Watt University Dubai?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "hw_dubai_handbook",
+    "hw_dubai_handbook",
+    "hw_dubai_handbook",
+    "hw_mitigating_circumstances"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D17",
+   "question": "What grade does a Canadian University Dubai student get for failing to officially withdraw?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D18",
+   "question": "What is the visa security deposit at Canadian University Dubai?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D19",
+   "question": "At the University of Birmingham Dubai, what happens to late penalties when extenuating circumstances are accepted?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "uob_ec_code_of_practice",
+    "uob_ec_code_of_practice",
+    "uob_ec_code_of_practice",
+    "mdx_regulations"
+   ]
+  },
+  {
+   "version": "A",
+   "id": "D26",
+   "question": "At Amity University Dubai, within how many days can a student appeal against a punishment?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "none",
+   "reasons": "",
+   "docs": [
+    "amity_dubai_handbook",
+    "amity_dubai_handbook",
+    "mdx_regulations",
+    "amity_dubai_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D02",
+   "question": "At Curtin University Dubai, how much is the mark reduced if an assessment is up to 24 hours late?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "block",
+   "reasons": "sensitivity marker ['marking guide'] in curtin_assessment_manual",
+   "docs": [
+    "curtin_assessment_manual",
+    "curtin_assessment_manual",
+    "curtin_assessment_manual",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D03",
+   "question": "At Curtin University Dubai, how late can an assessment be submitted at most?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "curtin_assessment_manual",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "curtin_assessment_manual"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D04",
+   "question": "How long can a short coursework extension be at the University of Birmingham Dubai?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "unsw_special_consideration",
+    "cud_ug_handbook",
+    "unsw_special_consideration",
+    "unsw_special_consideration"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D05",
+   "question": "What is the maximum extension for a dissertation at the University of Birmingham Dubai?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "amity_dubai_handbook",
+    "unsw_special_consideration",
+    "amity_dubai_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D09",
+   "question": "What final unit mark range makes a Murdoch University Dubai student eligible for a supplementary assessment?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "murdoch_dubai_attendance",
+    "murdoch_supplementary_deferred",
+    "curtin_assessment_manual",
+    "curtin_assessment_manual"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D10",
+   "question": "At Canadian University Dubai, how soon is a decision issued on a missed examination application?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "cud_examination_policy",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D12",
+   "question": "What penalty does the American University in Dubai normally apply to integrity offenses reviewed at the school Dean level?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "hw_dubai_handbook",
+    "cud_ug_handbook",
+    "hw_dubai_handbook",
+    "mdx_regulations"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D14",
+   "question": "At the American University in Dubai, to whom can students appeal after the Provost denies their appeal?",
+   "expected_doc_retrieved": false,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": true,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "mdx_regulations",
+    "cud_ug_handbook",
+    "hw_academic_appeals"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D15",
+   "question": "At Heriot-Watt University Dubai, by when must course changes be made?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "hw_dubai_handbook",
+    "hw_mitigating_circumstances",
+    "curtin_assessment_manual",
+    "hw_dubai_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D16",
+   "question": "How quickly should a personal tutor respond at Heriot-Watt University Dubai?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "hw_dubai_handbook",
+    "hw_dubai_handbook",
+    "hw_dubai_handbook",
+    "hw_mitigating_circumstances"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D17",
+   "question": "What grade does a Canadian University Dubai student get for failing to officially withdraw?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D18",
+   "question": "What is the visa security deposit at Canadian University Dubai?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook",
+    "cud_ug_handbook"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D19",
+   "question": "At the University of Birmingham Dubai, what happens to late penalties when extenuating circumstances are accepted?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "uob_ec_code_of_practice",
+    "uob_ec_code_of_practice",
+    "uob_ec_code_of_practice",
+    "mdx_regulations"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D21",
+   "question": "What is the late submission penalty per day at UOW Dubai?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": true,
+   "offline_correct": true,
+   "offline_refused": false,
+   "verifier": "block",
+   "reasons": "sensitivity marker ['marking guide'] in curtin_assessment_manual | unsupported: [\"Under the University of Wollongong's Assessment and Feedback Policy, the late ",
+   "docs": [
+    "cud_ug_handbook",
+    "curtin_assessment_manual",
+    "hw_mitigating_circumstances",
+    "uow_assessment_feedback"
+   ]
+  },
+  {
+   "version": "B",
+   "id": "D26",
+   "question": "At Amity University Dubai, within how many days can a student appeal against a punishment?",
+   "expected_doc_retrieved": true,
+   "keyword_in_retrieved": false,
+   "offline_correct": false,
+   "offline_refused": false,
+   "verifier": "pass",
+   "reasons": "",
+   "docs": [
+    "amity_dubai_handbook",
+    "amity_dubai_handbook",
+    "mdx_regulations",
+    "amity_dubai_handbook"
+   ]
+  }
+ ]
+}

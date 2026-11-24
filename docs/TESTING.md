@@ -84,7 +84,9 @@ Held-out 2, real set 2 and the dubai set were run again with Claude (`claude-opu
 | Over-refusal (held-out 2 / real 2 / dubai) | 5 / 0 / 4% | 5 / 20 / 23% | 23 / 30 / 50% | 27 / 30 / 58% |
 | Mean latency, mean cost per question | ms, $0 | ms, $0 | 1.6–1.8 s, $0.003–0.005 | 2.4–3.2 s, $0.004–0.008 |
 
-The leak result holds with a real model (pooled McNemar 6 vs 0, p = 0.031): Claude often declined on its own when a source carried a label, but still leaked six times on sources whose text does not look secret. With Claude, the answerer itself refuses most unanswerable and wrong-university questions, so the verifier adds little to answer quality; over-refusal is higher in both versions. One "leak" (N13) only cites the marking guide to say it cannot be shared. Details in `results/run12_claude/NOTES.md`.
+The leak result holds with a real model (pooled McNemar 6 vs 0, p = 0.031): Claude often declined on its own when a source carried a label, but still leaked six times on sources whose text does not look secret. With Claude, the answerer itself refuses most unanswerable and wrong-university questions, so the verifier adds little to answer quality; over-refusal is higher in both versions. One "leak" (N13) only cites the marking guide to say it cannot be shared.
+
+Follow-up: two repeats of the two main conditions (Claude cannot run at temperature 0) gave A 6, 6 and 5 of 19 leaks and B 0 in all three; accuracy and over-refusal moved by at most two questions. The two remaining conditions with Claude: with only the marking guide mis-tagged, A leaked a criterion from a chunk without the label (B caught it); with the register wrong too, B's single leak is the unlabelled workload document, as offline. Re-running retrieval for every refused answerable question showed that on real documents the answer passage was not among the retrieved chunks in 18 of 19 Version A refusals (a retrieval limit), while on the mock set the model refused lecturers and admins because it saw "STAFF ONLY" labels without knowing the user's role. Details in `results/run12_claude/NOTES.md`.
 
 ### Mis-tag stress test (23 Nov 2026)
 

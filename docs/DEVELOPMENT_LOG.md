@@ -25,6 +25,7 @@
 | v1.7 | 17 Nov 2026 | Interface work on the `ui` branch (pinned chat input, sections, chat feed, university choice in the sidebar), merged into main; Figure 1 redrawn; guide updated (Nikita) | Nikita found the page cramped and the feed hard to follow; Figure 1 no longer matched the code |
 | v1.8 | 24 Nov 2026 | Run 12: fair-test sets with Claude as answerer and judge; mis-tag stress test over all 128 subsets of restricted documents; personal contributions in the README (Nikita) | Tutor asked for testing with a real LLM and for each member's contribution; the main experiment only tested the two extremes of tagging errors |
 | v1.8.1 | 24 Nov 2026 | Windows .exe and macOS app built by GitHub Actions and attached to the release (Nikita) | Tutors asked for an executable to submit |
+| v1.8.2 | 25 Nov 2026 | Run 12 follow-up: two repeats, the remaining two conditions, over-refusal analysis (Nikita) | A single run of a non-deterministic model could be luck; Claude's high over-refusal needed an explanation |
 
 ## Design decisions
 
@@ -154,6 +155,9 @@ Starting point: upstream v0.9 (`4f5e8d2`), forked to `ma3str0o0/role-aware-rag-a
 | 57 | Merged `claude-replication` into main as v1.8.0; tests and CI re-run | main = v1.8.0 | merge commit |
 | 58 | Tutors asked for an .exe. Built the app with PyInstaller; `run_demo.py` starts copies of itself when frozen; tested on macOS (mock corpus, question answered through the API and the page) | Works locally | branch `exe-build` |
 | 59 | GitHub Actions builds Windows and macOS apps, starts each and asks one question, attaches the zips to the release | Both builds answered correctly in CI; released as v1.8.1 | `.github/workflows/build-exe.yml` |
+| 60 | Two repeats of run 12 (Claude is not deterministic) | A 6, 6, 5 of 19 leaks; B 0 in all three; other figures move by at most two questions | `results/run12_claude/rep2`, `rep3` |
+| 61 | The two remaining conditions with Claude | One-document mis-tag: Claude A leaked from a chunk without the label, B caught it; wrong register: B's only leak is the unlabelled document, as offline | `results/run12_claude/extra_conditions` |
+| 62 | Why Claude refuses answerable questions: re-ran retrieval for each refusal | Real documents: answer not retrieved in 18 of 19 (Version A); mock: staff refused because of "STAFF ONLY" labels (answerer does not know the role) | `eval/claude_over_refusal.py` |
 
 Planned next (agreed in principle, not started): a "Why?" view showing the decision chain of Version A and Version B for each answer, and splitting the page into subpages (Ask, Why, Demo lab, Documents, About & results).
 

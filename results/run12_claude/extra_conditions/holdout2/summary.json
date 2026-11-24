@@ -1,0 +1,79 @@
+{
+  "summary": {
+    "holdout2/mistagged/A": {
+      "accuracy_%": 72.7,
+      "accuracy_95ci": "72.7% [51.8, 86.8]",
+      "faithfulness_proxy_%": 91.5,
+      "leak_rate_restricted_%": 12.5,
+      "leak_rate_95ci": "12.5% [2.2, 47.1]",
+      "leaks_all_questions": 1,
+      "over_refusal_%": 22.7,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 1634.2,
+      "p95_latency_ms": 3092.6,
+      "avg_cost_usd": 0.002876,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "holdout2/mistagged/B": {
+      "accuracy_%": 72.7,
+      "accuracy_95ci": "72.7% [51.8, 86.8]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 32.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 22.7,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 2700.4,
+      "p95_latency_ms": 4502.6,
+      "avg_cost_usd": 0.004786,
+      "verifier_blocks": 2,
+      "n": 45
+    },
+    "holdout2/mistagged_all_bad_register/A": {
+      "accuracy_%": 72.7,
+      "accuracy_95ci": "72.7% [51.8, 86.8]",
+      "faithfulness_proxy_%": 97.5,
+      "leak_rate_restricted_%": 50.0,
+      "leak_rate_95ci": "50.0% [21.5, 78.5]",
+      "leaks_all_questions": 4,
+      "over_refusal_%": 27.3,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 1905.6,
+      "p95_latency_ms": 3937.3,
+      "avg_cost_usd": 0.003506,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "holdout2/mistagged_all_bad_register/B": {
+      "accuracy_%": 68.2,
+      "accuracy_95ci": "68.2% [47.3, 83.6]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 12.5,
+      "leak_rate_95ci": "12.5% [2.2, 47.1]",
+      "leaks_all_questions": 1,
+      "over_refusal_%": 31.8,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 3358.6,
+      "p95_latency_ms": 6547.8,
+      "avg_cost_usd": 0.006405,
+      "verifier_blocks": 4,
+      "n": 45
+    }
+  },
+  "paired_leaks": {
+    "holdout2/mistagged": {
+      "n_restricted": 8,
+      "only_A_leaked": 1,
+      "only_B_leaked": 0,
+      "mcnemar_p": 1.0
+    },
+    "holdout2/mistagged_all_bad_register": {
+      "n_restricted": 8,
+      "only_A_leaked": 3,
+      "only_B_leaked": 0,
+      "mcnemar_p": 0.25
+    }
+  },
+  "paired_unanswerable_refusals": {}
+}

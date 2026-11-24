@@ -1,0 +1,17 @@
+{
+  "model": "claude-opus-5-5",
+  "effort": "low",
+  "conditions": [
+    "normal",
+    "mistagged_all"
+  ],
+  "sets": [
+    "holdout2",
+    "real2",
+    "dubai"
+  ],
+  "calls": 656,
+  "refusals": 0,
+  "spent_usd": 2.8124,
+  "finished": "2026-11-24 15:16"
+}
