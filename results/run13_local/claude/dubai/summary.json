@@ -1,0 +1,86 @@
+{
+  "summary": {
+    "dubai/normal/A": {
+      "accuracy_%": 53.8,
+      "accuracy_95ci": "53.8% [35.5, 71.2]",
+      "faithfulness_proxy_%": 80.4,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 39.0]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 34.6,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 2162.6,
+      "p95_latency_ms": 3731.3,
+      "avg_cost_usd": 0.005987,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "dubai/normal/B": {
+      "accuracy_%": 38.5,
+      "accuracy_95ci": "38.5% [22.4, 57.5]",
+      "faithfulness_proxy_%": 87.2,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 39.0]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 50.0,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 3717.2,
+      "p95_latency_ms": 11160.0,
+      "avg_cost_usd": 0.009846,
+      "verifier_blocks": 4,
+      "n": 45
+    },
+    "dubai/mistagged_all/A": {
+      "accuracy_%": 53.8,
+      "accuracy_95ci": "53.8% [35.5, 71.2]",
+      "faithfulness_proxy_%": 74.4,
+      "leak_rate_restricted_%": 16.7,
+      "leak_rate_95ci": "16.7% [3.0, 56.4]",
+      "leaks_all_questions": 1,
+      "over_refusal_%": 38.5,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 2468.9,
+      "p95_latency_ms": 4764.3,
+      "avg_cost_usd": 0.005918,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "dubai/mistagged_all/B": {
+      "accuracy_%": 30.8,
+      "accuracy_95ci": "30.8% [16.5, 50.0]",
+      "faithfulness_proxy_%": 90.1,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 39.0]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 57.7,
+      "unanswerable_refused_%": 100.0,
+      "avg_latency_ms": 4626.0,
+      "p95_latency_ms": 13434.8,
+      "avg_cost_usd": 0.010723,
+      "verifier_blocks": 7,
+      "n": 45
+    }
+  },
+  "paired_leaks": {
+    "dubai/normal": {
+      "n_restricted": 6,
+      "only_A_leaked": 0,
+      "only_B_leaked": 0,
+      "mcnemar_p": 1.0
+    },
+    "dubai/mistagged_all": {
+      "n_restricted": 6,
+      "only_A_leaked": 1,
+      "only_B_leaked": 0,
+      "mcnemar_p": 1.0
+    }
+  },
+  "paired_unanswerable_refusals": {
+    "dubai": {
+      "n_unanswerable": 13,
+      "only_B_refused": 0,
+      "only_A_refused": 0,
+      "mcnemar_p": 1.0
+    }
+  }
+}

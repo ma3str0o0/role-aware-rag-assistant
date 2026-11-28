@@ -4,6 +4,7 @@ HashingEmbedding works fully offline (no model download) so the prototype runs a
 OpenAIEmbedding is used when an API key is available.
 """
 import hashlib
+import os
 import math
 import re
 
@@ -126,5 +127,53 @@ class OpenAIEmbedding:
         return False
 
 
+class LocalEmbedding:
+    """Neural embeddings from a small open model that runs on the laptop (run 13).
+
+    No API key and no network after the first download; deterministic on CPU.
+    Needs `pip install sentence-transformers`. Chosen with RAG_EMBED=local.
+    """
+
+    MODEL = os.getenv("LOCAL_EMBED_MODEL", "BAAI/bge-small-en-v1.5")
+    _model = None
+
+    @staticmethod
+    def name() -> str:
+        return "local-" + LocalEmbedding.MODEL.split("/")[-1]
+
+    def get_config(self):
+        return {"model": self.MODEL}
+
+    @staticmethod
+    def build_from_config(cfg):
+        return LocalEmbedding()
+
+    def _m(self):
+        if LocalEmbedding._model is None:
+            from sentence_transformers import SentenceTransformer
+            LocalEmbedding._model = SentenceTransformer(self.MODEL, device="cpu")
+        return LocalEmbedding._model
+
+    def __call__(self, input):
+        return self._m().encode(list(input), normalize_embeddings=True, batch_size=64).tolist()
+
+    def embed_query(self, input):
+        return self(input)
+
+    def embed_documents(self, input):
+        return self(input)
+
+    def supported_spaces(self):  # chromadb >= 1.0 asks every embedding function for this
+        return ["cosine", "l2", "ip"]
+
+    def default_space(self):
+        return "cosine"
+
+    def is_legacy(self):
+        return False
+
+
 def get_embedding():
+    if os.getenv("RAG_EMBED") == "local":
+        return LocalEmbedding()
     return OpenAIEmbedding() if config.MODE == "openai" else HashingEmbedding()

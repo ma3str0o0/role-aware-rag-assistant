@@ -2,6 +2,10 @@
 
 Versions v0.1–v0.9 are described in `docs/DEVELOPMENT_LOG.md`. Each version below is tagged in git.
 
+## v1.8.3 (28 Nov 2026)
+- Run 13: the three fair-test sets with neural retrieval from a small local model (`BAAI/bge-small-en-v1.5`, `RAG_EMBED=local`), offline and with Claude; nothing else changed. Version B: 0/19 leaks in both modes (A: 16/19 offline, 4/19 with Claude). Accuracy on the Dubai corpus 42–46% → 58% offline. See `results/run13_local/NOTES.md`.
+- `src/embeddings.py`: `LocalEmbedding` (optional, needs `sentence-transformers`); `eval/run_local_embed.py`.
+
 ## v1.8.2 (25 Nov 2026)
 - Run 12 follow-up: two repeats with Claude (A leaked 6, 6, 5 of 19; B 0 in all three) and the two remaining conditions; analysis of why Claude refuses answerable questions (`eval/claude_over_refusal.py`): mostly retrieval misses on real documents, and refusals of authorised staff when a document carries a "STAFF ONLY" label.
 - `eval/run_claude.py`: `--conditions` and `--no-smoke`; the wrong-register condition uses the same setup as `run_eval`.

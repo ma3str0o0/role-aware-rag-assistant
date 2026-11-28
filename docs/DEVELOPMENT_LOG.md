@@ -26,6 +26,7 @@
 | v1.8 | 24 Nov 2026 | Run 12: fair-test sets with Claude as answerer and judge; mis-tag stress test over all 128 subsets of restricted documents; personal contributions in the README (Nikita) | Tutor asked for testing with a real LLM and for each member's contribution; the main experiment only tested the two extremes of tagging errors |
 | v1.8.1 | 24 Nov 2026 | Windows .exe and macOS app built by GitHub Actions and attached to the release (Nikita) | Tutors asked for an executable to submit |
 | v1.8.2 | 25 Nov 2026 | Run 12 follow-up: two repeats, the remaining two conditions, over-refusal analysis (Nikita) | A single run of a non-deterministic model could be luck; Claude's high over-refusal needed an explanation |
+| v1.8.3 | 28 Nov 2026 | Run 13: neural retrieval with a local open model (Nikita) | Retrieval was the main open weakness: low accuracy on the large corpus and most of Claude's refusals came from missed passages |
 
 ## Design decisions
 
@@ -158,6 +159,8 @@ Starting point: upstream v0.9 (`4f5e8d2`), forked to `ma3str0o0/role-aware-rag-a
 | 60 | Two repeats of run 12 (Claude is not deterministic) | A 6, 6, 5 of 19 leaks; B 0 in all three; other figures move by at most two questions | `results/run12_claude/rep2`, `rep3` |
 | 61 | The two remaining conditions with Claude | One-document mis-tag: Claude A leaked from a chunk without the label, B caught it; wrong register: B's only leak is the unlabelled document, as offline | `results/run12_claude/extra_conditions` |
 | 62 | Why Claude refuses answerable questions: re-ran retrieval for each refusal | Real documents: answer not retrieved in 18 of 19 (Version A); mock: staff refused because of "STAFF ONLY" labels (answerer does not know the role) | `eval/claude_over_refusal.py` |
+| 63 | Defence materials for the team: plain-language guide, slides, speaker script and live-demo script, demo tested on the presenting laptop | Slides adapted to the marking criteria (literature, technologies, feedback, implications, team and AI use) | Claude artifacts, outside the repo |
+| 64 | Run 13: neural retrieval from a local open model (bge-small), offline and with Claude, no other change | B 0/19 leaks in both modes; Dubai accuracy 42–46% → 58% offline; Claude A over-refusal on Dubai 50% → 35% | `results/run13_local` |
 
 Planned next (agreed in principle, not started): a "Why?" view showing the decision chain of Version A and Version B for each answer, and splitting the page into subpages (Ask, Why, Demo lab, Documents, About & results).
 

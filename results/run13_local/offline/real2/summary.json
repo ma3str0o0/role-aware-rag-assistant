@@ -1,0 +1,158 @@
+{
+  "summary": {
+    "real2/normal/A": {
+      "accuracy_%": 55.0,
+      "accuracy_95ci": "55.0% [34.2, 74.2]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 43.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 0.0,
+      "unanswerable_refused_%": 0.0,
+      "avg_latency_ms": 28.4,
+      "p95_latency_ms": 31.1,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "real2/normal/B": {
+      "accuracy_%": 50.0,
+      "accuracy_95ci": "50.0% [29.9, 70.1]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 43.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 10.0,
+      "unanswerable_refused_%": 70.0,
+      "avg_latency_ms": 33.7,
+      "p95_latency_ms": 40.5,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 19,
+      "n": 45
+    },
+    "real2/mistagged/A": {
+      "accuracy_%": 55.0,
+      "accuracy_95ci": "55.0% [34.2, 74.2]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 43.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 0.0,
+      "unanswerable_refused_%": 0.0,
+      "avg_latency_ms": 28.8,
+      "p95_latency_ms": 31.3,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "real2/mistagged/B": {
+      "accuracy_%": 50.0,
+      "accuracy_95ci": "50.0% [29.9, 70.1]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 43.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 10.0,
+      "unanswerable_refused_%": 70.0,
+      "avg_latency_ms": 32.7,
+      "p95_latency_ms": 38.2,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 19,
+      "n": 45
+    },
+    "real2/mistagged_all/A": {
+      "accuracy_%": 55.0,
+      "accuracy_95ci": "55.0% [34.2, 74.2]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 60.0,
+      "leak_rate_95ci": "60.0% [23.1, 88.2]",
+      "leaks_all_questions": 3,
+      "over_refusal_%": 0.0,
+      "unanswerable_refused_%": 0.0,
+      "avg_latency_ms": 28.7,
+      "p95_latency_ms": 31.7,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "real2/mistagged_all/B": {
+      "accuracy_%": 50.0,
+      "accuracy_95ci": "50.0% [29.9, 70.1]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 43.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 10.0,
+      "unanswerable_refused_%": 70.0,
+      "avg_latency_ms": 33.7,
+      "p95_latency_ms": 40.3,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 20,
+      "n": 45
+    },
+    "real2/mistagged_all_bad_register/A": {
+      "accuracy_%": 55.0,
+      "accuracy_95ci": "55.0% [34.2, 74.2]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 60.0,
+      "leak_rate_95ci": "60.0% [23.1, 88.2]",
+      "leaks_all_questions": 3,
+      "over_refusal_%": 0.0,
+      "unanswerable_refused_%": 0.0,
+      "avg_latency_ms": 26.7,
+      "p95_latency_ms": 30.5,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 0,
+      "n": 45
+    },
+    "real2/mistagged_all_bad_register/B": {
+      "accuracy_%": 50.0,
+      "accuracy_95ci": "50.0% [29.9, 70.1]",
+      "faithfulness_proxy_%": 100.0,
+      "leak_rate_restricted_%": 0.0,
+      "leak_rate_95ci": "0.0% [0.0, 43.4]",
+      "leaks_all_questions": 0,
+      "over_refusal_%": 10.0,
+      "unanswerable_refused_%": 70.0,
+      "avg_latency_ms": 31.6,
+      "p95_latency_ms": 38.0,
+      "avg_cost_usd": 0.0,
+      "verifier_blocks": 20,
+      "n": 45
+    }
+  },
+  "paired_leaks": {
+    "real2/normal": {
+      "n_restricted": 5,
+      "only_A_leaked": 0,
+      "only_B_leaked": 0,
+      "mcnemar_p": 1.0
+    },
+    "real2/mistagged": {
+      "n_restricted": 5,
+      "only_A_leaked": 0,
+      "only_B_leaked": 0,
+      "mcnemar_p": 1.0
+    },
+    "real2/mistagged_all": {
+      "n_restricted": 5,
+      "only_A_leaked": 3,
+      "only_B_leaked": 0,
+      "mcnemar_p": 0.25
+    },
+    "real2/mistagged_all_bad_register": {
+      "n_restricted": 5,
+      "only_A_leaked": 3,
+      "only_B_leaked": 0,
+      "mcnemar_p": 0.25
+    }
+  },
+  "paired_unanswerable_refusals": {
+    "real2": {
+      "n_unanswerable": 20,
+      "only_B_refused": 14,
+      "only_A_refused": 0,
+      "mcnemar_p": 0.0001
+    }
+  }
+}

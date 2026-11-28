@@ -88,6 +88,10 @@ The leak result holds with a real model (pooled McNemar 6 vs 0, p = 0.031): Clau
 
 Follow-up: two repeats of the two main conditions (Claude cannot run at temperature 0) gave A 6, 6 and 5 of 19 leaks and B 0 in all three; accuracy and over-refusal moved by at most two questions. The two remaining conditions with Claude: with only the marking guide mis-tagged, A leaked a criterion from a chunk without the label (B caught it); with the register wrong too, B's single leak is the unlabelled workload document, as offline. Re-running retrieval for every refused answerable question showed that on real documents the answer passage was not among the retrieved chunks in 18 of 19 Version A refusals (a retrieval limit), while on the mock set the model refused lecturers and admins because it saw "STAFF ONLY" labels without knowing the user's role. Details in `results/run12_claude/NOTES.md`.
 
+### Run 13: neural retrieval (28 Nov 2026)
+
+The three fair-test sets were run again with neural retrieval from a small open model on the laptop (`BAAI/bge-small-en-v1.5`); everything else, including thresholds, was unchanged. Leaks with every restricted document mis-tagged: Version B 0/19 offline and with Claude (A: 16/19 and 4/19). Accuracy on the Dubai corpus rose from 42–46% to 58% offline, and Claude A's over-refusal there fell from 50% to 35%, confirming that retrieval caused most of the earlier misses. Trade-offs: Version A no longer refuses any unanswerable question, B caught 18 instead of 21 of 23 wrong-university traps, and Claude B still refuses half of the answerable Dubai questions. Details in `results/run13_local/NOTES.md`.
+
 ### Mis-tag stress test (23 Nov 2026)
 
 The main runs use two extremes (all tags right, or all restricted tags wrong). This test mis-tags every subset of the 7 restricted documents (128 subsets) on the dubai corpus and runs 80 questions (41 restricted) through A, B, and B with a register that is wrong for the same documents. Because every subset was run, the expected leak rate for a per-document error rate p is exact. A: expected share of restricted questions leaked 4.3% at p = 5% (30% chance of at least one leak), 8.5% at 10%, 85.4% at 100%. B: 0 at every rate. B with a wrong register: leaks only through the one unlabelled document, so its chance of a leak equals p. Answer quality and latency do not depend on p. Details in `results/stress_mistag/NOTES.md`.
@@ -317,7 +321,7 @@ The v1.1 page was then checked by hand in compare mode: with the live mis-tag sw
 
 ## 6. Limitations of this validation
 
-- **Offline mode for most runs.** The offline answerer copies sentences and the verifier is rule-based, so latency and cost in runs 1–11 do not reflect a real LLM. Run 12 repeats the three fair-test sets with Claude as answerer and judge, but retrieval still uses offline hashing embeddings (Anthropic has no embeddings API), and the Claude run was done once, on one model.
+- **Offline mode for most runs.** The offline answerer copies sentences and the verifier is rule-based, so latency and cost in runs 1–11 do not reflect a real LLM. Run 12 repeats the three fair-test sets with Claude as answerer and judge, and run 13 repeats them with neural retrieval from a local open model; main results still use offline hashing embeddings.
 - **Tuned on the test set.** The thresholds were tuned on the 45 pilot questions, so those figures are optimistic. Run 4 confirms this; the held-out figures should be reported as the main result.
 - **Small sample.** 9 + 11 restricted questions. Run 4 reports 95% intervals, which are wide (0 leaks in 11 questions only shows the rate is below about 26%).
 - **The held-out questions were written by one person** (with AI help, see `docs/AI_USE_DECLARATION.md`) after reading the documents, so they may still be easier than real student questions.

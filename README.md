@@ -226,7 +226,7 @@ a second, optional job fetches the real documents and checks `results/run9` (rea
 | `eval/test_set_holdout2.csv` (held-out 2) | 22 / 15 / 8 | committed before the v1.1 verifier changes, run once in run 5: **the fair test now** |
 | `eval/test_set_real.csv` (real corpus) | 28 / 9 / 8 | committed before any run on the real documents (runs 6–8) |
 
-Runs are kept in `results/run1/` to `results/run12_claude/`, each with a `NOTES.md` explaining what changed.
+Runs are kept in `results/run1/` to `results/run13_local/`, each with a `NOTES.md` explaining what changed.
 
 **With a real LLM (run 12).** `python -m eval.run_claude` runs the three fair-test sets with Claude as
 answerer and verifier judge (needs `pip install anthropic` and Anthropic credentials; retrieval is
@@ -262,6 +262,13 @@ With only the marking guide mis-tagged, Claude A leaked a criterion from a chunk
 guide's "STAFF ONLY" label; B caught it because it reads the whole document. Most of Claude's refusals of
 answerable questions on real documents are correct given what retrieval returned: the answer was not in the
 top 4 chunks. Details in [`results/run12_claude/NOTES.md`](results/run12_claude/NOTES.md).
+
+### With neural retrieval (run 13)
+
+The fair-test sets were run again with neural search from a small open model that runs on the laptop
+(`RAG_EMBED=local`, needs `pip install sentence-transformers`). Version B leaked 0 of 19 restricted questions
+offline and with Claude (Version A: 16 and 4 of 19). Accuracy on the 11-university Dubai corpus rose from
+42–46% to 58% offline. Details in [`results/run13_local/NOTES.md`](results/run13_local/NOTES.md).
 
 ### Mis-tag stress test (128 combinations)
 
