@@ -487,13 +487,14 @@ pip install -r requirements.txt
 python run_demo.py                 <span class="c"># opens http://localhost:8501</span></code></pre>
 <p>Use <code>python run_demo.py --corpus mock</code> for a fast start without downloads. To reproduce the numbers: <code>pytest</code> (55 tests) and <code>python -m eval.run_eval</code>.</p>
 <h3>A three-minute live demo</h3>
+<p>Tested on the Dubai corpus with "All universities" selected and the side-by-side view. Screenshots of each step are on slides 15–18.</p>
 <ol>
-  <li>Log in as <b>student1</b>. Ask "How many days do I have to apply for special consideration?" Both versions answer with a citation.</li>
-  <li>Ask "What marks does the CSIT305 marking guide give?" Both give the neutral reply: the filter works with correct tags.</li>
-  <li>Switch on the <b>mis-tag</b> option and ask again in compare mode. Version A cites the marking guide (flagged "Restricted source shown"). Version B blocks it and the trace shows "register: staff_csit305_marking_guide not allowed for student".</li>
-  <li>Choose a university and ask a question about another one (a wrong-university trap). A answers from the wrong university; B refuses.</li>
-  <li>Log in as <b>admin1</b> and ask the restricted question: the admin gets the answer. Same question, different role, different result.</li>
+  <li>Log in as <b>student1</b>. Ask "At Murdoch University Dubai, what minimum attendance is required in a trimester?" Both versions answer 80% from Murdoch's policy; B shows "Checked and approved".</li>
+  <li>Open <b>Advanced</b> and switch on the <b>Mis-tag demo</b> (the marking guide becomes visible to everyone in the index). Ask "How many marks is the research gap criterion worth in CSIT305 assignment 2?" Version A answers 25 marks and is flagged as a leak; Version B is blocked by the access list.</li>
+  <li>Switch the role to <b>Admin</b> and ask the same question: the admin gets the answer, approved.</li>
+  <li>Back as a student, switch the mis-tag off and ask "What is the late penalty per day at the American University in Dubai?" Version A answers from a Canadian University Dubai handbook; Version B refuses because the source is from another university.</li>
 </ol>
+<p>Avoid "Show me the marking guide" on the Dubai corpus: a public Curtin manual mentions "marking guide", so search returns that manual instead and the leak does not show.</p>
 </main>
 </div>
 
